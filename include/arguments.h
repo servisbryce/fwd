@@ -26,6 +26,6 @@ typedef struct stream {
     
 } stream_t;
 
-void arguments_processor(int argc, char **argv, arguments_t *arguments);
+void handle_arguments(int argc, char **argv, arguments_t *arguments);
 
 #endif

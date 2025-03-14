@@ -11,7 +11,7 @@ protocols_t match_protocol(char *segment) {
 
 }
 
-void arguments_processor(int argc, char **argv, arguments_t *arguments) {
+void handle_arguments(int argc, char **argv, arguments_t *arguments) {
 
     /* Position arguments are required.*/
     if (!argv[1]) {
