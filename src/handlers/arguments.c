@@ -61,6 +61,11 @@ void handle_arguments(int argc, char **argv, arguments_t *arguments) {
                 arguments->protocol = match_protocol(optarg);
                 break;
 
+            /* Maximum Transmission Control Protocol buffer length. */
+            case 'l':
+                arguments->length = (size_t) strtoll(optarg, &optarg, 10);
+                break;
+
             /* Unknown argument. */
             case '?':
                 exit(EXIT_FAILURE);
@@ -88,5 +93,6 @@ void handle_arguments(int argc, char **argv, arguments_t *arguments) {
     if (!arguments->downstream->address) arguments->downstream->address = "127.0.0.1";
     if (!arguments->downstream->port) arguments->downstream->port = arguments->upstream->port;
     if (!arguments->protocol) arguments->protocol = GENERIC;
+    if (!arguments->length) arguments->length = 65536;
 
 }

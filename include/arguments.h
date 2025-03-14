@@ -13,9 +13,10 @@ typedef enum {
 
 typedef struct arguments {
 
+    protocols_t protocol;
     struct stream *downstream;
     struct stream *upstream;
-    protocols_t protocol;
+    size_t length;
 
 } arguments_t;
 
