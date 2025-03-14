@@ -67,6 +67,16 @@ void arguments_processor(int argc, char **argv, arguments_t *arguments) {
                 break;
 
             default:
+                printf("Usage:\n");
+                printf("fwd [upstream address:upstream port] [options]");
+                printf("\n");
+                printf("DOWNSTREAM OPTIONS\n");
+                printf(" -d             fwd bind address\n");
+                printf(" -f             fwd bind port\n");
+                printf(" -p             protocol\n");
+                printf("PROTOCOLS\n");
+                printf(" unspecified    defaults to raw tcp\n");
+                printf(" http           http protocol (or https)\n");
                 break;
 
 
