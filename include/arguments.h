@@ -1,3 +1,6 @@
+#ifndef ARGUMENTS_H
+#define ARGUMENTS_H
+
 #include <stddef.h>
 #include <stdint.h>
 
@@ -24,3 +27,5 @@ typedef struct stream {
 } stream_t;
 
 void arguments_processor(int argc, char **argv, arguments_t *arguments);
+
+#endif
