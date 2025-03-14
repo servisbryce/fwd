@@ -23,8 +23,10 @@ typedef struct arguments {
 typedef struct stream {
 
     uint16_t port;
+    char *certificate_path;
+    char *key_path;
     char *address;
-    
+
 } stream_t;
 
 void handle_arguments(int argc, char **argv, arguments_t *arguments);

@@ -24,10 +24,14 @@ void handle_arguments(int argc, char **argv, arguments_t *arguments) {
     /* Prevent uninitalized pointer errors in the downstream structure. */
     arguments->downstream = (stream_t*) malloc(sizeof(stream_t));
     arguments->downstream->address = NULL;
+    arguments->downstream->certificate = NULL;
+    arguments->downstream->key = NULL;
 
     /* Prevent uninitalized pointer errors in the upstream structure while also parsing the required positional arguments. */
     arguments->upstream = (stream_t*) malloc(sizeof(stream_t));
     arguments->upstream->address = strtok(argv[1], ":");
+    arguments->upstream->certificate = NULL;
+    arguments->upstream->key = NULL;
 
     /* Parse the upstream port. */
     char *upstream_port = strtok(NULL, ":");
@@ -64,6 +68,26 @@ void handle_arguments(int argc, char **argv, arguments_t *arguments) {
             /* Maximum Transmission Control Protocol buffer length. */
             case 'l':
                 arguments->length = (size_t) strtoll(optarg, &optarg, 10);
+                break;
+
+            /* Path for downstream certificate. */
+            case 'g':
+                arguments->downstream->certificate_path = optarg;
+                break;
+
+            /* Path for downstream key. */
+            case 'h':
+                arguments->downstream->key_path = optarg;
+                break;
+            
+            /* Path for upstream certificate. */
+            case 'u':
+                arguments->upstream->certificate_path = optarg;
+                break;
+
+            /* Path for upstream key. */
+            case 'i':
+                arguments->upstream->key_path = optarg;
                 break;
 
             /* Unknown argument. */
