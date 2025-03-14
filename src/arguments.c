@@ -1,1 +1,82 @@
 #include "../include/arguments.h"
+#include <unistd.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+
+protocols_t match_protocol(char *segment) {
+
+    if (strcmp(segment, "http") == 0) return HTTP;
+    else return GENERIC;
+
+}
+
+void arguments_processor(int argc, char **argv, arguments_t *arguments) {
+
+    /* Position arguments are required.*/
+    if (!argv[1]) {
+
+        fprintf(stderr, "The upstream address and port must be defined.\n");
+        exit(EXIT_FAILURE);
+
+    }
+
+    /* Prevent uninitalized pointer errors in the downstream structure. */
+    arguments->downstream = (stream_t*) malloc(sizeof(stream_t));
+    arguments->downstream->address = NULL;
+
+    /* Prevent uninitalized pointer errors in the upstream structure while also parsing the required positional arguments. */
+    arguments->upstream = (stream_t*) malloc(sizeof(stream_t));
+    arguments->upstream->address = strtok(argv[1], ":");
+
+    /* Parse the upstream port. */
+    char *upstream_port = strtok(NULL, ":");
+    if (!upstream_port) {
+
+        fprintf(stderr, "The upstream port must be defined.\n");
+        exit(EXIT_FAILURE);
+
+    }
+
+    arguments->upstream->port = (uint16_t) strtol(upstream_port, NULL, 10);
+
+    /* Parse optional arguments. */
+    int option;
+    while ((option = getopt(argc, argv, "d:f:p:")) != -1) {
+
+        switch (option) {
+
+            /* Downstream address argument.*/
+            case 'd':
+                arguments->downstream->address = optarg;
+                break;
+
+            /* Downstream port argument. */
+            case 'f':
+                arguments->downstream->port = strtol(optarg, &optarg, 10);
+                break;
+
+            /* Protocol argument. */
+            case 'p':
+                arguments->protocol = match_protocol(optarg);
+                break;
+
+            /* Unknown argument. */
+            case '?':
+                exit(EXIT_FAILURE);
+                break;
+
+            default:
+                break;
+
+
+        }
+
+    }
+
+    /* If optional arguments are undefined, assign sane defaults. */
+    if (!arguments->downstream->address) arguments->downstream->address = "127.0.0.1";
+    if (!arguments->downstream->port) arguments->downstream->port = arguments->upstream->port;
+    if (!arguments->protocol) arguments->protocol = GENERIC;
+
+}
