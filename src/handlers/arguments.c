@@ -11,7 +11,10 @@ protocols_t match_protocol(char *segment) {
 
 }
 
-void handle_arguments(int argc, char **argv, arguments_t *arguments) {
+arguments_t *handle_arguments(int argc, char **argv) {
+
+    /* Construct the argument structure. */
+    arguments_t *arguments = (arguments_t*) malloc(sizeof(arguments_t));
 
     /* Position arguments are required.*/
     if (!argv[1]) {
@@ -118,5 +121,6 @@ void handle_arguments(int argc, char **argv, arguments_t *arguments) {
     if (!arguments->downstream->port) arguments->downstream->port = arguments->upstream->port;
     if (!arguments->protocol) arguments->protocol = GENERIC;
     if (!arguments->length) arguments->length = 65536;
+    return arguments;
 
 }

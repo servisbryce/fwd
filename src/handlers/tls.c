@@ -27,7 +27,7 @@ void handle_context(SSL_CTX *context, char *certificate_path, char *key_path) {
 
     }
 
-    /* Enforce minimum standards for Transport Layer Security. */
+    /* Enforce minimum versions and options for Transport Layer Security. */
     if (!SSL_CTX_set_min_proto_version(context, TLS1_2_VERSION)) {
 
         fprintf(stderr, "There was an error while assigning a minimum version to a Transport Layer Security context: '%s'.", strerror(errno));
