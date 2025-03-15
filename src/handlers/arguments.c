@@ -4,22 +4,20 @@
 #include <string.h>
 #include <stdio.h>
 
-protocols_t match_protocol(char *segment) {
-
-    if (strcmp(segment, "http") == 0) return HTTP;
-    else return GENERIC;
-
-}
-
 arguments_t *handle_arguments(int argc, char **argv) {
 
     /* Construct the argument structure. */
     arguments_t *arguments = (arguments_t*) malloc(sizeof(arguments_t));
 
-    /* Position arguments are required.*/
+    /* Position arguments are required. */
     if (!argv[1]) {
 
-        fprintf(stderr, "The upstream address and port must be defined.\n");
+        printf("Usage:\n");
+        printf("fwd [upstream address:upstream port] [options]");
+        printf("\n");
+        printf("DOWNSTREAM OPTIONS\n");
+        printf(" -d             fwd bind address\n");
+        printf(" -f             fwd bind port\n");
         exit(EXIT_FAILURE);
 
     }
@@ -40,7 +38,7 @@ arguments_t *handle_arguments(int argc, char **argv) {
     char *upstream_port = strtok(NULL, ":");
     if (!upstream_port) {
 
-        fprintf(stderr, "The upstream port must be defined.\n");
+        fprintf(stderr, "The upstream address and port must be defined.\n");
         exit(EXIT_FAILURE);
 
     }
@@ -49,7 +47,7 @@ arguments_t *handle_arguments(int argc, char **argv) {
 
     /* Parse optional arguments. */
     int option;
-    while ((option = getopt(argc, argv, "d:f:p:")) != -1) {
+    while ((option = getopt(argc, argv, "d:f:l:g:h:u:i:")) != -1) {
 
         switch (option) {
 
@@ -61,11 +59,6 @@ arguments_t *handle_arguments(int argc, char **argv) {
             /* Downstream port argument. */
             case 'f':
                 arguments->downstream->port = strtol(optarg, &optarg, 10);
-                break;
-
-            /* Protocol argument. */
-            case 'p':
-                arguments->protocol = match_protocol(optarg);
                 break;
 
             /* Maximum Transmission Control Protocol buffer length. */
@@ -105,10 +98,6 @@ arguments_t *handle_arguments(int argc, char **argv) {
                 printf("DOWNSTREAM OPTIONS\n");
                 printf(" -d             fwd bind address\n");
                 printf(" -f             fwd bind port\n");
-                printf(" -p             protocol\n");
-                printf("PROTOCOLS\n");
-                printf(" unspecified    defaults to raw tcp\n");
-                printf(" http           http protocol (or https)\n");
                 break;
 
 
@@ -119,7 +108,6 @@ arguments_t *handle_arguments(int argc, char **argv) {
     /* If optional arguments are undefined, assign sane defaults. */
     if (!arguments->downstream->address) arguments->downstream->address = "127.0.0.1";
     if (!arguments->downstream->port) arguments->downstream->port = arguments->upstream->port;
-    if (!arguments->protocol) arguments->protocol = GENERIC;
     if (!arguments->length) arguments->length = 65536;
     return arguments;
 

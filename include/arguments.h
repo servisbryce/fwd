@@ -4,16 +4,8 @@
 #include <stddef.h>
 #include <stdint.h>
 
-typedef enum {
-
-    HTTP,
-    GENERIC
-
-} protocols_t;
-
 typedef struct arguments {
 
-    protocols_t protocol;
     struct stream *downstream;
     struct stream *upstream;
     size_t length;
