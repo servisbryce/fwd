@@ -4,7 +4,7 @@
 
 void handle_context(SSL_CTX *context, char *certificate_path, char *key_path) {
 
-    SSL_METHOD *method = TLS_server_method();
+    const SSL_METHOD *method = TLS_server_method();
     context = SSL_CTX_new(method);
     if (!context) {
 

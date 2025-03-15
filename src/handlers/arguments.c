@@ -24,14 +24,14 @@ void handle_arguments(int argc, char **argv, arguments_t *arguments) {
     /* Prevent uninitalized pointer errors in the downstream structure. */
     arguments->downstream = (stream_t*) malloc(sizeof(stream_t));
     arguments->downstream->address = NULL;
-    arguments->downstream->certificate = NULL;
-    arguments->downstream->key = NULL;
+    arguments->downstream->certificate_path = NULL;
+    arguments->downstream->key_path = NULL;
 
     /* Prevent uninitalized pointer errors in the upstream structure while also parsing the required positional arguments. */
     arguments->upstream = (stream_t*) malloc(sizeof(stream_t));
     arguments->upstream->address = strtok(argv[1], ":");
-    arguments->upstream->certificate = NULL;
-    arguments->upstream->key = NULL;
+    arguments->upstream->certificate_path = NULL;
+    arguments->upstream->key_path = NULL;
 
     /* Parse the upstream port. */
     char *upstream_port = strtok(NULL, ":");
