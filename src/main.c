@@ -15,6 +15,21 @@ int main(int argc, char **argv) {
 
     }
 
+    while (true) {
+
+        struct sockaddr_in *clientaddr_in;
+        int clientsock;
+        if ((clientsock = accept(servsock, (struct sockaddr*) clientaddr_in, sizeof(struct sockaddr_in))) < 0) {
+
+            fprintf(stderr, "There was an unexpected error while trying to accept an incoming connection: '%s'.\n", strerror(errno));
+            exit(EXIT_FAILURE);
+
+        }
+
+        // handoff to thread.
+
+    }
+
     return 0;
 
 }
