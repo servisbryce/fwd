@@ -33,7 +33,7 @@ void *tls_downstream_serve(int sock, SSL_CTX *servcontext, size_t buffer_length,
 
     }
 
-    realloc(request_buffer, request_length);
+    request_buffer = realloc(request_buffer, request_length);
     *request_buffer_length = request_length;
     *tls_handshake = tls;
     return request_buffer;
@@ -96,7 +96,7 @@ void *tls_upstream_connect(char *address, uint16_t port, SSL_CTX *clientcontext,
     }
 
     *response_buffer_length = response_length;
-    realloc(response_buffer, response_length);
+    response_buffer = realloc(response_buffer, response_length);
     SSL_shutdown(tls);
     SSL_free(tls);
     close(upstream_sock);
@@ -118,7 +118,7 @@ void *downstream_serve(int sock, size_t buffer_length, size_t *request_buffer_le
     }
 
     *request_buffer_length = request_length;
-    realloc(request_buffer, request_length);
+    request_buffer = realloc(request_buffer, request_length);
     return request_buffer;
 
 } 
@@ -157,7 +157,7 @@ void *upstream_connect(char *address, uint16_t port, void *request_buffer, size_
     }
 
     *response_buffer_length = response_length;
-    realloc(response_buffer, response_length);
+    response_buffer = realloc(response_buffer, response_length);
     close(upstream_sock);
     free(upstream_addr);
     return response_buffer;
@@ -172,11 +172,10 @@ void *tls_worker(void *tls_worker_vargs_p) {
     void *request_buffer = tls_downstream_serve(tls_worker_vargs->sock, tls_worker_vargs->servcontext, tls_worker_vargs->buffer_length, &request_length, &tls);
     if (!request_buffer) {
 
-        free(tls_worker_vargs);
-        free(request_buffer);
         SSL_shutdown(tls);
         SSL_free(tls);
         close(tls_worker_vargs->sock);
+        free(tls_worker_vargs);
         return NULL;
 
     }
@@ -193,7 +192,6 @@ void *tls_worker(void *tls_worker_vargs_p) {
 
     }
 
-    printf("%s\n",response_buffer);
     if (!response_buffer) {
 
         // return a TCP error.
@@ -235,7 +233,6 @@ void *worker(void *worker_vargs_p) {
 
         close(worker_vargs->sock);
         free(worker_vargs);
-        free(request_buffer);
         return NULL;
 
     }
