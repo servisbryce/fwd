@@ -112,3 +112,11 @@ arguments_t *handle_arguments(int argc, char **argv) {
     return arguments;
 
 }
+
+void free_arguments(arguments_t *arguments) {
+
+    free(arguments->downstream);
+    free(arguments->upstream);
+    free(arguments);
+
+}

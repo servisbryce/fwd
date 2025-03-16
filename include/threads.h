@@ -1,5 +1,6 @@
 #include <openssl/ssl.h>
 #include <openssl/err.h>
+#include <pthread.h>
 
 typedef struct tls_worker_vargs {
 
@@ -15,3 +16,13 @@ typedef struct worker_vargs {
     int sock;
 
 } worker_vargs_t;
+
+typedef struct thread_pool {
+
+    int available_target;
+    pthread_t *available;
+    pthread_t *busy;
+
+} thread_pool_t;
+
+void free_thread_pool(thread_pool_t *thread_pool);

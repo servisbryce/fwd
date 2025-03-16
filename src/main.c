@@ -1,7 +1,52 @@
 #include "../include/arguments.h"
 #include "../include/sockets.h"
 #include "../include/tls.h"
+#include <netinet/in.h>
+#include <sys/socket.h>
+#include <stdbool.h>
 #include <stdlib.h>
+#include <unistd.h>
+
+void tls_receive(int servsock, SSL_CTX *servcontext) {
+
+    while (true) {
+
+        struct sockaddr_in *clientaddr_in = NULL;
+        unsigned int clientaddr_in_length = sizeof(struct sockaddr_in);
+        int clientsock;
+        if ((clientsock = accept(servsock, (struct sockaddr*) clientaddr_in, &clientaddr_in_length)) < 0) {
+
+            fprintf(stderr, "There was an unexpected error while trying to accept an incoming connection: '%s'.\n", strerror(errno));
+            exit(EXIT_FAILURE);
+
+        }
+
+        exit(EXIT_FAILURE);
+
+    }
+
+}
+
+void receive(int servsock) {
+
+    while (true) {
+
+        struct sockaddr_in *clientaddr_in = NULL;
+        unsigned int clientaddr_in_length = sizeof(struct sockaddr_in);
+        int clientsock;
+        if ((clientsock = accept(servsock, (struct sockaddr*) clientaddr_in, &clientaddr_in_length)) < 0) {
+
+            fprintf(stderr, "There was an unexpected error while trying to accept an incoming connection: '%s'.\n", strerror(errno));
+            exit(EXIT_FAILURE);
+
+        }
+
+        exit(EXIT_FAILURE);
+
+    }
+
+}
+
 
 int main(int argc, char **argv) {
 
@@ -15,18 +60,13 @@ int main(int argc, char **argv) {
 
     }
 
-    while (true) {
+    if (!servcontext) {
 
-        struct sockaddr_in *clientaddr_in;
-        int clientsock;
-        if ((clientsock = accept(servsock, (struct sockaddr*) clientaddr_in, sizeof(struct sockaddr_in))) < 0) {
+        receive(servsock);
 
-            fprintf(stderr, "There was an unexpected error while trying to accept an incoming connection: '%s'.\n", strerror(errno));
-            exit(EXIT_FAILURE);
+    } else {
 
-        }
-
-        // handoff to thread.
+        tls_receive(servsock, servcontext);
 
     }
 

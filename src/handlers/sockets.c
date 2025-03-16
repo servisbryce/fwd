@@ -26,6 +26,7 @@ struct sockaddr_in *handle_sockaddr_in(char *address, uint16_t port) {
     sockaddr = (struct sockaddr_in *) result->ai_addr;
     sockaddr->sin_family = AF_INET;
     sockaddr->sin_port = htons(port);
+    freeaddrinfo(result);
     return sockaddr;
 
 }
