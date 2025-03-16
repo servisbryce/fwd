@@ -9,7 +9,10 @@ Fwd is a simple and performant T.C.P. proxy swiss-army knife. The main purpose o
  - Easily dump traffic between a client and a service to a file or the terminal.
 
 ## Build
+### Dependencies
+- OpenSSL
 
+### Compilation & Installation
 **Fedora Linux**
 ```bash
 dnf install openssl-devel
