@@ -70,6 +70,15 @@ int main(int argc, char **argv) {
 
     }
 
+    close(servsock);
+    free(servaddr_in);
+    free_arguments(arguments);
+    if (servcontext) {
+
+        SSL_CTX_free(servcontext);
+
+    }
+
     return 0;
 
 }

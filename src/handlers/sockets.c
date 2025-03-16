@@ -11,8 +11,9 @@
 struct sockaddr_in *handle_sockaddr_in(char *address, uint16_t port) {
 
     /* Construct the socket address from hostname or address data. */
-    struct addrinfo hints, *result;
-    struct sockaddr_in *sockaddr;
+    struct addrinfo hints;
+    struct addrinfo *result = NULL;
+    struct sockaddr_in *sockaddr = NULL;
     memset(&hints,0,sizeof(struct addrinfo));
     hints.ai_family = AF_INET;
     if (getaddrinfo(address, NULL, &hints, &result) != 0) {
@@ -23,7 +24,9 @@ struct sockaddr_in *handle_sockaddr_in(char *address, uint16_t port) {
     }
 
     /* File out the rest of the socket address structure. */
-    sockaddr = (struct sockaddr_in *) result->ai_addr;
+    void *sockaddr_p = malloc(sizeof(struct sockaddr_in));
+    memcpy(sockaddr_p, result->ai_addr, sizeof(struct sockaddr_in));
+    sockaddr = (struct sockaddr_in*) sockaddr_p;
     sockaddr->sin_family = AF_INET;
     sockaddr->sin_port = htons(port);
     freeaddrinfo(result);
