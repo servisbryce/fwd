@@ -10,7 +10,7 @@
 #include <signal.h>
 #include <unistd.h>
 
-void tls_receive(int servsock, SSL_CTX *servcontext, arguments_t *arguments) {
+void tls_receive(int servsock, SSL_CTX *servcontext, SSL_CTX *clientcontext, arguments_t *arguments) {
 
     while (true) {
 
@@ -26,7 +26,8 @@ void tls_receive(int servsock, SSL_CTX *servcontext, arguments_t *arguments) {
         pthread_t thread_id;
         tls_worker_vargs_t *tls_worker_vargs = (tls_worker_vargs_t*) malloc(sizeof(tls_worker_vargs_t));
         tls_worker_vargs->upstream = arguments->upstream;
-        tls_worker_vargs->context = servcontext;
+        tls_worker_vargs->servcontext = servcontext;
+        tls_worker_vargs->clientcontext = clientcontext;
         tls_worker_vargs->buffer_length = arguments->length;
         tls_worker_vargs->sock = clientsock;
         pthread_create(&thread_id, NULL, tls_worker, (void*) tls_worker_vargs);
@@ -36,7 +37,7 @@ void tls_receive(int servsock, SSL_CTX *servcontext, arguments_t *arguments) {
 
 }
 
-void receive(int servsock, arguments_t *arguments) {
+void receive(int servsock, arguments_t *arguments, SSL_CTX *clientcontext) {
 
     while (true) {
 
@@ -52,6 +53,7 @@ void receive(int servsock, arguments_t *arguments) {
         pthread_t thread_id;
         worker_vargs_t *worker_vargs = (worker_vargs_t*) malloc(sizeof(worker_vargs_t));
         worker_vargs->upstream = arguments->upstream;
+        worker_vargs->clientcontext = clientcontext;
         worker_vargs->buffer_length = arguments->length;
         worker_vargs->sock = clientsock;
         pthread_create(&thread_id, NULL, worker, (void*) worker_vargs);
@@ -68,22 +70,27 @@ int main(int argc, char **argv) {
     struct sockaddr_in *servaddr_in = NULL;
     servaddr_in = handle_sockaddr_in(arguments->downstream->address, arguments->downstream->port);
     int servsock = handle_socket(servaddr_in);
+    SSL_CTX *clientcontext = NULL;
     SSL_CTX *servcontext = NULL;
     if (arguments->downstream->certificate_path && arguments->downstream->key_path) {
 
-        printf("hi\n");
         servcontext = handle_context(arguments->downstream->certificate_path, arguments->downstream->key_path);        
+
+    }
+
+    if (arguments->upstream->certificate_path && arguments->upstream->key_path) {
+
+        clientcontext = handle_context(arguments->upstream->certificate_path, arguments->upstream->key_path);
 
     }
 
     if (!servcontext) {
 
-        receive(servsock, arguments);
+        receive(servsock, arguments, clientcontext);
 
     } else {
 
-        printf("%p\n", servcontext);
-        tls_receive(servsock, servcontext, arguments);
+        tls_receive(servsock, servcontext, clientcontext, arguments);
 
     }
 
@@ -93,6 +100,12 @@ int main(int argc, char **argv) {
     if (servcontext) {
 
         SSL_CTX_free(servcontext);
+
+    }
+
+    if (clientcontext) {
+
+        SSL_CTX_free(clientcontext);
 
     }
 

@@ -19,6 +19,7 @@ typedef struct tls_worker_vargs {
 typedef struct worker_vargs {
 
     stream_t *upstream;
+    SSL_CTX *clientcontext;
     size_t buffer_length;
     int sock;
 
