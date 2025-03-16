@@ -10,7 +10,7 @@
 #include <signal.h>
 #include <unistd.h>
 
-void tls_receive(int servsock, SSL_CTX *servcontext, thread_pool_t *thread_pool) {
+void tls_receive(int servsock, SSL_CTX *servcontext, size_t buffer_length) {
 
     while (true) {
 
@@ -24,13 +24,19 @@ void tls_receive(int servsock, SSL_CTX *servcontext, thread_pool_t *thread_pool)
 
         }
 
-        exit(EXIT_FAILURE);
+        pthread_t thread_id;
+        tls_worker_vargs_t *tls_worker_vargs = (tls_worker_vargs_t*) malloc(sizeof(tls_worker_vargs_t));
+        tls_worker_vargs->context = servcontext;
+        tls_worker_vargs->length = buffer_length;
+        tls_worker_vargs->sock = clientsock;
+        pthread_create(&thread_id, NULL, tls_worker, (void*) tls_worker_vargs);
+        pthread_detach(thread_id);
 
     }
 
 }
 
-void receive(int servsock, thread_pool_t *thread_pool) {
+void receive(int servsock, size_t buffer_length) {
 
     while (true) {
 
@@ -44,15 +50,16 @@ void receive(int servsock, thread_pool_t *thread_pool) {
 
         }
 
-        pthread_t id = thread_pool->available[0].id;
-        pthread_mutex_lock(&worker_mutex);
-        pthread_cond_signal(&worker_condition);
-        pthread_mutex_unlock(&worker_mutex);
+        pthread_t thread_id;
+        worker_vargs_t *worker_vargs = (worker_vargs_t*) malloc(sizeof(worker_vargs_t));
+        worker_vargs->length = buffer_length;
+        worker_vargs->sock = clientsock;
+        pthread_create(&thread_id, NULL, worker, (void*) worker_vargs);
+        pthread_detach(thread_id);
 
     }
 
 }
-
 
 int main(int argc, char **argv) {
 
@@ -68,15 +75,13 @@ int main(int argc, char **argv) {
 
     }
 
-    thread_pool_t *thread_pool = NULL;
-    thread_pool = handle_thread_pool(64, servcontext);
     if (!servcontext) {
 
-        receive(servsock, thread_pool);
+        receive(servsock, arguments->length);
 
     } else {
 
-        tls_receive(servsock, servcontext, thread_pool);
+        tls_receive(servsock, servcontext);
 
     }
 
