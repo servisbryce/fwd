@@ -60,9 +60,9 @@ void *tls_upstream_connect(char *address, uint16_t port, SSL_CTX *clientcontext,
 
         fprintf(stderr, "There was an unexpected error while trying to establish security with the upstream server: '%s'.\n", strerror(errno));
         ERR_print_errors_fp(stderr);
-        close(upstream_sock);
         SSL_shutdown(tls);
         SSL_free(tls);
+        close(upstream_sock);
         free(upstream_addr);
         return NULL;
 
@@ -72,9 +72,9 @@ void *tls_upstream_connect(char *address, uint16_t port, SSL_CTX *clientcontext,
 
         fprintf(stderr, "There was an unexpected error while trying to send data to the upstream server: '%s'.\n", strerror(errno));
         ERR_print_errors_fp(stderr);
-        close(upstream_sock);
         SSL_shutdown(tls);
         SSL_free(tls);
+        close(upstream_sock);
         free(upstream_addr);
         return NULL;
 
@@ -86,9 +86,9 @@ void *tls_upstream_connect(char *address, uint16_t port, SSL_CTX *clientcontext,
 
         fprintf(stderr, "There was an unexpected error while trying to receive data from the upstream server: '%s'.\n", strerror(errno));
         ERR_print_errors_fp(stderr);
-        close(upstream_sock);
         SSL_shutdown(tls);
         SSL_free(tls);
+        close(upstream_sock);
         free(response_buffer);
         free(upstream_addr);
         return NULL;
@@ -97,9 +97,9 @@ void *tls_upstream_connect(char *address, uint16_t port, SSL_CTX *clientcontext,
 
     *response_buffer_length = response_length;
     realloc(response_buffer, response_length);
-    close(upstream_sock);
     SSL_shutdown(tls);
     SSL_free(tls);
+    close(upstream_sock);
     free(upstream_addr);
     return response_buffer;
 
@@ -203,25 +203,25 @@ void *tls_worker(void *tls_worker_vargs_p) {
         if (SSL_write(tls, response_buffer, response_length) <= 0) {
 
             fprintf(stderr, "There was an unexpected error while trying to send data to an incoming connection: '%s'.\n", strerror(errno));
-            free(tls_worker_vargs);
             free(request_buffer);
             free(response_buffer);
             ERR_print_errors_fp(stderr);
             SSL_shutdown(tls);
             SSL_free(tls);
             close(tls_worker_vargs->sock);
+            free(tls_worker_vargs);
             return NULL;
 
         }
 
     }
 
+    close(tls_worker_vargs->sock);
     free(tls_worker_vargs);
     free(request_buffer);
     free(response_buffer);
     SSL_shutdown(tls);
     SSL_free(tls);
-    close(tls_worker_vargs->sock);
     return NULL;
 
 }
@@ -233,9 +233,9 @@ void *worker(void *worker_vargs_p) {
     void *request_buffer = downstream_serve(worker_vargs->sock, worker_vargs->buffer_length, &request_length);
     if (!request_buffer) {
 
+        close(worker_vargs->sock);
         free(worker_vargs);
         free(request_buffer);
-        close(worker_vargs->sock);
         return NULL;
 
     }
@@ -261,20 +261,20 @@ void *worker(void *worker_vargs_p) {
         if (write(worker_vargs->sock, response_buffer, response_length) < 0) {
 
             fprintf(stderr, "There was an unexpected error while trying to send data to an incoming connection: '%s'.\n", strerror(errno));
-            free(worker_vargs);
             free(request_buffer);
             free(response_buffer);
             close(worker_vargs->sock);
+            free(worker_vargs);
             return NULL;
 
         }
 
     }
 
-    free(worker_vargs);
     free(request_buffer);
     free(response_buffer);
     close(worker_vargs->sock);
+    free(worker_vargs);
     return NULL;
 
 }
