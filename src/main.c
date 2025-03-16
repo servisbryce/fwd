@@ -81,7 +81,7 @@ int main(int argc, char **argv) {
 
     } else {
 
-        tls_receive(servsock, servcontext);
+        tls_receive(servsock, servcontext, arguments->length);
 
     }
 
