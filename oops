@@ -1,0 +1,475 @@
+GET / HTTP/1.1
+Host: archlinux.org
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Cookie: TS01d7083a=0148b2b1e9271f35e563224e6da7e80ee4f71b706c6842bb3e5e1fb85ae060f98e6fac83595506478ecc5d77e1a7d0b35d7d0d883c
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+
+HTTP/1.1 200 OK
+Server: nginx
+Date: Sun, 16 Mar 2025 13:16:00 GMT
+Content-Type: text/html; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+Cache-Control: max-age=307
+Content-Security-Policy: default-src 'self'; base-uri 'none'; frame-ancestors 'none'; img-src 'self' data:; form-action 'self'; script-src 'self'
+ETag: W/"869bb2f4b99f70cdad4f570652e3c03b"
+X-Content-Type-Options: nosniff
+Referrer-Policy: strict-origin
+Cross-Origin-Opener-Policy: same-origin
+X-Frame-Options: DENY
+Vary: Cookie
+Strict-Transport-Security: max-age=31536000; includeSubdomains; preload
+Alt-Svc: h3=":443"; ma=3600
+X-Cache-Status: MISS
+Content-Encoding: br
+
+1808
+Ò¿cDjRÄFË9oüTÕØ˛j™wº¥;_
+GET /static/archweb.fdd0941a955d.css HTTP/1.1
+Host: archlinux.org
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/css,*/*;q=0.1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Referer: https://archlinux.org/
+Connection: keep-alive
+Cookie: TS01d7083a=0148b2b1e9271f35e563224e6da7e80ee4f71b706c6842bb3e5e1fb85ae060f98e6fac83595506478ecc5d77e1a7d0b35d7d0d883c
+Sec-Fetch-Dest: style
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Site: same-origin
+Priority: u=2
+
+
+GET /static/homepage.6c5f3f9460d7.js HTTP/1.1
+Host: archlinux.org
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Referer: https://archlinux.org/
+Connection: keep-alive
+Cookie: TS01d7083a=0148b2b1e9271f35e563224e6da7e80ee4f71b706c6842bb3e5e1fb85ae060f98e6fac83595506478ecc5d77e1a7d0b35d7d0d883c
+Sec-Fetch-Dest: script
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Site: same-origin
+
+
+HTTP/1.1 200 OK
+Server: nginx
+Date: Sun, 16 Mar 2025 13:16:00 GMT
+Content-Type: text/css
+Last-Modified: Wed, 12 Feb 2025 10:55:08 GMT
+Transfer-Encoding: chunked
+Connection: keep-alive
+ETag: W/"67ac7e0c-356b"
+Expires: Tue, 15 Apr 2025 13:16:00 GMT
+Cache-Control: max-age=2592000
+Strict-Transport-Security: max-age=31536000; includeSubdomains; preload
+Alt-Svc: h3=":443"; ma=3600
+Pragma: public
+Cache-Control: public
+Content-Encoding: br
+
+df3
+·P´!¢ö‘†Ê˛øÃˇ˙Â‘ô∂iÂ¢&ﬂfómG@•Q±@∂«·Ø˝*Ì%l#\Ñç#∂ÊAw’Ôµ\µ37@x–ó‡f7@Ï.éçàíë`Dîã∞16Ø°“öùQÉà,È[ØØc§ÌyËF `€ˇ≠Ñ[1Ã¸–r&=OòÚ ¶∆…/¥$Œ∆ê˘Œ\⁄w±$œÛ¨èÌ◊∞r9°ÑTuü(:—∏w4Ω	‹Çì2$<¢˛Nå ¶“3ö@bp¨lKêáòWõÄŒÈÅSITGeG7≤á$ee#“‘¨nr|ÅII=˙ºËì±ùﬁÚpñ]•7ºA<ôˇKÌ
+(ˇWÙ*[ä˝*N Vl∫µê∏√ì iV1©ê5Y‚≠@CötèW'èg»‹<{ÜmäjÑ{Å	ILt˙@˝w<Ì¸ ï" Â*˜óz∏H4ªŸ®öÎLÏV–®øıç~58°ÕÃ$≈2¿Làn·‚¨‘áµ|>ßÿ="àˆ6Ç%°⁄’1≥˘¬lX§ı°Û≤]\Í¿\òQØK¿Õ-v˝d`;(Óy`Aœñ?≠çß“îèÎ÷›∂Ü∏C)mj…î4N‡€tâ(≠∫ôL—b\0˘»s5°ˇµÑ«D3¶˚13®›^¶&\—Ó#£jä˚10$Ÿô"Ñ°–’∑Lf6Ê§I∑åv,uíS»J5!†•ö‚ba°mdË‘V∂5\CˆJ5	Jô’í Z‹‡Û¡‡<øÀ°ËWd∞D¥î#√†àÃxOJ_ùç;ñQ}wß†£Ië
+-ΩKŒT”ÌA˛ùæ˙ñd∆áæ>±ûã`√S∏ñÿÃ—WFts°u∑≈¡*bciª∆.%SıÒUUE=ı•ëò¨›2$}™å;Ú Nßçúçzﬁ•ú¥ÀÄL˝ÄÇúﬁF*E´ìrÊÄ»Ω‚ñ>ÿ1S‚zë√Z∞ÄA`<∫’£ˆgÊ,<Ó∆!Øb¢ˆ∆Õwé*î
+HTTP/1.1 200 OK
+Server: nginx
+Date: Sun, 16 Mar 2025 13:16:00 GMT
+Content-Type: text/javascript
+Last-Modified: Wed, 12 Feb 2025 10:55:07 GMT
+Transfer-Encoding: chunked
+Connection: keep-alive
+ETag: W/"67ac7e0b-a45"
+Expires: Tue, 15 Apr 2025 13:16:00 GMT
+Cache-Control: max-age=2592000
+Strict-Transport-Security: max-age=31536000; includeSubdomains; preload
+Alt-Svc: h3=":443"; ma=3600
+Pragma: public
+Cache-Control: public
+Content-Encoding: br
+
+3a1
+¡ R
+GET /static/hetzner_logo.41114a37d25f.png HTTP/1.1
+Host: archlinux.org
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: image/avif,image/webp,image/png,image/svg+xml,image/*;q=0.8,*/*;q=0.5
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Referer: https://archlinux.org/
+Connection: keep-alive
+Cookie: TS01d7083a=0148b2b1e9271f35e563224e6da7e80ee4f71b706c6842bb3e5e1fb85ae060f98e6fac83595506478ecc5d77e1a7d0b35d7d0d883c
+Sec-Fetch-Dest: image
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Site: same-origin
+Priority: u=5, i
+
+
+GET /static/click_and_pledge.46105c057763.png HTTP/1.1
+Host: archlinux.org
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: image/avif,image/webp,image/png,image/svg+xml,image/*;q=0.8,*/*;q=0.5
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Referer: https://archlinux.org/
+Connection: keep-alive
+Cookie: TS01d7083a=0148b2b1e9271f35e563224e6da7e80ee4f71b706c6842bb3e5e1fb85ae060f98e6fac83595506478ecc5d77e1a7d0b35d7d0d883c
+Sec-Fetch-Dest: image
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Site: same-origin
+Priority: u=5, i
+
+
+GET /static/icons8_logo.91378e9a3b77.png HTTP/1.1
+Host: archlinux.org
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: image/avif,image/webp,image/png,image/svg+xml,image/*;q=0.8,*/*;q=0.5
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Referer: https://archlinux.org/
+Connection: keep-alive
+Cookie: TS01d7083a=0148b2b1e9271f35e563224e6da7e80ee4f71b706c6842bb3e5e1fb85ae060f98e6fac83595506478ecc5d77e1a7d0b35d7d0d883c
+Sec-Fetch-Dest: image
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Site: same-origin
+Priority: u=5, i
+
+
+GET /static/rss.ca03bf98a65a.svg HTTP/1.1
+Host: archlinux.org
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: image/avif,image/webp,image/png,image/svg+xml,image/*;q=0.8,*/*;q=0.5
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Referer: https://archlinux.org/
+Connection: keep-alive
+Cookie: TS01d7083a=0148b2b1e9271f35e563224e6da7e80ee4f71b706c6842bb3e5e1fb85ae060f98e6fac83595506478ecc5d77e1a7d0b35d7d0d883c
+Sec-Fetch-Dest: image
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Site: same-origin
+Priority: u=5, i
+
+
+GET /static/pia_logo.1b392510109c.png HTTP/1.1
+Host: archlinux.org
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: image/avif,image/webp,image/png,image/svg+xml,image/*;q=0.8,*/*;q=0.5
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Referer: https://archlinux.org/
+Connection: keep-alive
+Cookie: TS01d7083a=0148b2b1e9271f35e563224e6da7e80ee4f71b706c6842bb3e5e1fb85ae060f98e6fac83595506478ecc5d77e1a7d0b35d7d0d883c
+Sec-Fetch-Dest: image
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Site: same-origin
+Priority: u=5, i
+
+
+GET /static/shells_logo.b8dc891046b3.png HTTP/1.1
+Host: archlinux.org
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: image/avif,image/webp,image/png,image/svg+xml,image/*;q=0.8,*/*;q=0.5
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Referer: https://archlinux.org/
+Connection: keep-alive
+Cookie: TS01d7083a=0148b2b1e9271f35e563224e6da7e80ee4f71b706c6842bb3e5e1fb85ae060f98e6fac83595506478ecc5d77e1a7d0b35d7d0d883c
+Sec-Fetch-Dest: image
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Site: same-origin
+Priority: u=5, i
+
+
+HTTP/1.1 200 OK
+Server: nginx
+Date: Sun, 16 Mar 2025 13:16:01 GMT
+Content-Type: image/png
+Content-Length: 2186
+Last-Modified: Wed, 09 Dec 2020 14:52:46 GMT
+Connection: keep-alive
+ETag: "5fd0e4be-88a"
+Expires: Tue, 15 Apr 2025 13:16:01 GMT
+Cache-Control: max-age=2592000
+Strict-Transport-Security: max-age=31536000; includeSubdomains; preload
+Alt-Svc: h3=":443"; ma=3600
+Pragma: public
+Cache-Control: public
+Accept-Ranges: bytes
+
+âPNG
+
+
+HTTP/1.1 200 OK
+Server: nginx
+Date: Sun, 16 Mar 2025 13:16:01 GMT
+Content-Type: image/png
+Content-Length: 1955
+Last-Modified: Wed, 30 Oct 2024 15:14:55 GMT
+Connection: keep-alive
+ETag: "67224d6f-7a3"
+Expires: Tue, 15 Apr 2025 13:16:01 GMT
+Cache-Control: max-age=2592000
+Strict-Transport-Security: max-age=31536000; includeSubdomains; preload
+Alt-Svc: h3=":443"; ma=3600
+Pragma: public
+Cache-Control: public
+Accept-Ranges: bytes
+
+âPNG
+
+
+GET /static/archnavbar/archlogo.a2d0ef2df27d.png HTTP/1.1
+Host: archlinux.org
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: image/avif,image/webp,image/png,image/svg+xml,image/*;q=0.8,*/*;q=0.5
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: https://archlinux.org/static/archweb.fdd0941a955d.css
+Cookie: TS01d7083a=0148b2b1e9271f35e563224e6da7e80ee4f71b706c6842bb3e5e1fb85ae060f98e6fac83595506478ecc5d77e1a7d0b35d7d0d883c
+Sec-Fetch-Dest: image
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Site: same-origin
+Priority: u=4, i
+
+
+HTTP/1.1 200 OK
+Server: nginx
+Date: Sun, 16 Mar 2025 13:16:01 GMT
+Content-Type: image/png
+Content-Length: 10477
+Last-Modified: Wed, 09 Dec 2020 14:52:46 GMT
+Connection: keep-alive
+ETag: "5fd0e4be-28ed"
+Expires: Tue, 15 Apr 2025 13:16:01 GMT
+Cache-Control: max-age=2592000
+Strict-Transport-Security: max-age=31536000; includeSubdomains; preload
+Alt-Svc: h3=":443"; ma=3600
+Pragma: public
+Cache-Control: public
+Accept-Ranges: bytes
+
+âPNG
+
+
+HTTP/1.1 200 OK
+Server: nginx
+Date: Sun, 16 Mar 2025 13:16:01 GMT
+Content-Type: image/png
+Content-Length: 11997
+Last-Modified: Wed, 30 Oct 2024 15:14:55 GMT
+Connection: keep-alive
+ETag: "67224d6f-2edd"
+Expires: Tue, 15 Apr 2025 13:16:01 GMT
+Cache-Control: max-age=2592000
+Strict-Transport-Security: max-age=31536000; includeSubdomains; preload
+Alt-Svc: h3=":443"; ma=3600
+Pragma: public
+Cache-Control: public
+Accept-Ranges: bytes
+
+âPNG
+
+
+HTTP/1.1 200 OK
+Server: nginx
+Date: Sun, 16 Mar 2025 13:16:01 GMT
+Content-Type: image/png
+Content-Length: 7596
+Last-Modified: Wed, 30 Oct 2024 15:14:55 GMT
+Connection: keep-alive
+ETag: "67224d6f-1dac"
+Expires: Tue, 15 Apr 2025 13:16:01 GMT
+Cache-Control: max-age=2592000
+Strict-Transport-Security: max-age=31536000; includeSubdomains; preload
+Alt-Svc: h3=":443"; ma=3600
+Pragma: public
+Cache-Control: public
+Accept-Ranges: bytes
+
+âPNG
+
+
+HTTP/1.1 200 OK
+Server: nginx
+Date: Sun, 16 Mar 2025 13:16:01 GMT
+Content-Type: image/svg+xml
+Content-Length: 227
+Last-Modified: Sat, 16 Oct 2021 17:04:17 GMT
+Connection: keep-alive
+ETag: "616b0611-e3"
+Expires: Tue, 15 Apr 2025 13:16:01 GMT
+Cache-Control: max-age=2592000
+Strict-Transport-Security: max-age=31536000; includeSubdomains; preload
+Alt-Svc: h3=":443"; ma=3600
+Pragma: public
+Cache-Control: public
+Accept-Ranges: bytes
+
+<svg height="8" viewBox="0 0 8 8" width="8" xmlns="http://www.w3.org/2000/svg"><path d="m0 0v2c3.33 0 6 2.67 6 6h2c0-4.41-3.59-8-8-8zm0 3v2c1.67 0 3 1.33 3 3h2c0-2.75-2.25-5-5-5zm0 3v2h2c0-1.11-.9-2-2-2z" fill="#f26522"/></svg>
+GET /static/logos/apple-touch-icon-144x144.38cf584757c3.png HTTP/1.1
+Host: archlinux.org
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: image/avif,image/webp,image/png,image/svg+xml,image/*;q=0.8,*/*;q=0.5
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Referer: https://archlinux.org/
+Connection: keep-alive
+Cookie: TS01d7083a=0148b2b1e9271f35e563224e6da7e80ee4f71b706c6842bb3e5e1fb85ae060f98e6fac83595506478ecc5d77e1a7d0b35d7d0d883c
+Sec-Fetch-Dest: image
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Site: same-origin
+Priority: u=6
+
+
+GET /static/favicon.51c13517c44c.png HTTP/1.1
+Host: archlinux.org
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: image/avif,image/webp,image/png,image/svg+xml,image/*;q=0.8,*/*;q=0.5
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Referer: https://archlinux.org/
+Connection: keep-alive
+Cookie: TS01d7083a=0148b2b1e9271f35e563224e6da7e80ee4f71b706c6842bb3e5e1fb85ae060f98e6fac83595506478ecc5d77e1a7d0b35d7d0d883c
+Sec-Fetch-Dest: image
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Site: same-origin
+Priority: u=6
+
+
+HTTP/1.1 200 OK
+Server: nginx
+Date: Sun, 16 Mar 2025 13:16:01 GMT
+Content-Type: image/png
+Content-Length: 5359
+Last-Modified: Wed, 09 Dec 2020 14:52:46 GMT
+Connection: keep-alive
+ETag: "5fd0e4be-14ef"
+Expires: Tue, 15 Apr 2025 13:16:01 GMT
+Cache-Control: max-age=2592000
+Strict-Transport-Security: max-age=31536000; includeSubdomains; preload
+Alt-Svc: h3=":443"; ma=3600
+Pragma: public
+Cache-Control: public
+Accept-Ranges: bytes
+
+âPNG
+
+
+HTTP/1.1 200 OK
+Server: nginx
+Date: Sun, 16 Mar 2025 13:16:02 GMT
+Content-Type: image/png
+Content-Length: 3063
+Last-Modified: Wed, 09 Dec 2020 14:52:46 GMT
+Connection: keep-alive
+ETag: "5fd0e4be-bf7"
+Expires: Tue, 15 Apr 2025 13:16:02 GMT
+Cache-Control: max-age=2592000
+Strict-Transport-Security: max-age=31536000; includeSubdomains; preload
+Alt-Svc: h3=":443"; ma=3600
+Pragma: public
+Cache-Control: public
+Accept-Ranges: bytes
+
+âPNG
+
+
+HTTP/1.1 200 OK
+Server: nginx
+Date: Sun, 16 Mar 2025 13:16:02 GMT
+Content-Type: image/png
+Content-Length: 7924
+Last-Modified: Sun, 28 Apr 2024 10:07:49 GMT
+Connection: keep-alive
+ETag: "662e1ff5-1ef4"
+Expires: Tue, 15 Apr 2025 13:16:02 GMT
+Cache-Control: max-age=2592000
+Strict-Transport-Security: max-age=31536000; includeSubdomains; preload
+Alt-Svc: h3=":443"; ma=3600
+Pragma: public
+Cache-Control: public
+Accept-Ranges: bytes
+
+âPNG
+
+
+GET /packages/ HTTP/1.1
+Host: archlinux.org
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Referer: https://archlinux.org/
+Connection: keep-alive
+Cookie: TS01d7083a=0148b2b1e9271f35e563224e6da7e80ee4f71b706c6842bb3e5e1fb85ae060f98e6fac83595506478ecc5d77e1a7d0b35d7d0d883c
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: same-origin
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+
+HTTP/1.1 200 OK
+Server: nginx
+Date: Sun, 16 Mar 2025 13:16:05 GMT
+Content-Type: text/html; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+Content-Security-Policy: default-src 'self'; base-uri 'none'; frame-ancestors 'none'; img-src 'self' data:; form-action 'self'; script-src 'self'
+ETag: W/"bfc03d04255565a680e1930833ccd5f7"
+X-Content-Type-Options: nosniff
+Referrer-Policy: strict-origin
+Cross-Origin-Opener-Policy: same-origin
+X-Frame-Options: DENY
+Vary: Cookie
+Set-Cookie: csrftoken=TBA7mGcNmPXQ9Ip4kmS4GZc7ZneuSDGf; expires=Sun, 15 Mar 2026 13:16:05 GMT; HttpOnly; Max-Age=31449600; Path=/; SameSite=Lax; Secure
+Strict-Transport-Security: max-age=31536000; includeSubdomains; preload
+Alt-Svc: h3=":443"; ma=3600
+X-Cache-Status: EXPIRED
+Content-Encoding: br
+
+213a
+Å
+'f§&ı
+GET /packages/extra/x86_64/acpi_call/ HTTP/1.1
+Host: archlinux.org
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Referer: https://archlinux.org/
+Connection: keep-alive
+Cookie: TS01d7083a=0148b2b1e9271f35e563224e6da7e80ee4f71b706c6842bb3e5e1fb85ae060f98e6fac83595506478ecc5d77e1a7d0b35d7d0d883c; csrftoken=TBA7mGcNmPXQ9Ip4kmS4GZc7ZneuSDGf
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: same-origin
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+
+HTTP/1.1 200 OK
+Server: nginx
+Date: Sun, 16 Mar 2025 13:16:11 GMT
+Content-Type: text/html; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+Content-Security-Policy: default-src 'self'; base-uri 'none'; frame-ancestors 'none'; img-src 'self' data:; form-action 'self'; script-src 'self' 'nonce-l66+44JNnhQMEcs8g0uF5A=='
+ETag: W/"400734e679de72bd936a39d58d3e7512"
+X-Content-Type-Options: nosniff
+Referrer-Policy: strict-origin
+Cross

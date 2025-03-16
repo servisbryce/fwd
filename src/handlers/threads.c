@@ -97,6 +97,24 @@ void *tls_upstream_connect(char *address, uint16_t port, SSL_CTX *clientcontext,
 
 }
 
+void *downstream_serve(int sock, size_t buffer_length, size_t *request_buffer_length) {
+
+    void *request_buffer = malloc(buffer_length);
+    size_t request_length;
+    if ((request_length = read(sock, request_buffer, buffer_length)) < 0) {
+
+        fprintf(stderr, "There was an unexpected error while trying to receive data from an incoming connection: '%s'.\n", strerror(errno));
+        free(request_buffer);
+        return NULL;
+
+    }
+
+    *request_buffer_length = request_length;
+    realloc(request_buffer, request_length);
+    return request_buffer;
+
+} 
+
 void *upstream_connect(char *address, uint16_t port, void *request_buffer, size_t request_buffer_length, size_t buffer_length, size_t *response_buffer_length) {
 
     struct sockaddr_in *upstream_addr = handle_sockaddr_in(address, port);
@@ -151,6 +169,7 @@ void *tls_worker(void *tls_worker_vargs_p) {
 
     }
 
+    printf("%s\n", request_buffer);
     size_t response_length;
     void *response_buffer = NULL;
     if (tls_worker_vargs->clientcontext) {
@@ -163,6 +182,7 @@ void *tls_worker(void *tls_worker_vargs_p) {
 
     }
 
+    printf("%s\n",response_buffer);
     if (!response_buffer) {
 
         // return a TCP error.
@@ -190,6 +210,42 @@ void *tls_worker(void *tls_worker_vargs_p) {
 void *worker(void *worker_vargs_p) {
 
     worker_vargs_t *worker_vargs = (worker_vargs_t*) worker_vargs_p;
+    size_t request_length;
+    void *request_buffer = downstream_serve(worker_vargs->sock, worker_vargs->buffer_length, &request_length);
+    if (!request_buffer) {
+
+        return NULL;
+
+    }
+
+    size_t response_length;
+    void *response_buffer = NULL;
+    if (worker_vargs->clientcontext) {
+
+        response_buffer = tls_upstream_connect(worker_vargs->upstream->address, worker_vargs->upstream->port, worker_vargs->clientcontext, request_buffer, request_length, worker_vargs->buffer_length, &response_length);
+
+    } else {
+
+        response_buffer = upstream_connect(worker_vargs->upstream->address, worker_vargs->upstream->port, request_buffer, request_length, worker_vargs->buffer_length, &response_length);
+
+    }
+
+    if (!response_buffer) {
+
+        // report TCP error to client.
+
+    } else {
+
+        if (write(worker_vargs->sock, response_buffer, response_length) < 0) {
+
+            fprintf(stderr, "There was an unexpected error while trying to send data to an incoming connection: '%s'.\n", strerror(errno));
+            return NULL;
+
+        }
+
+    }
+
+    close(worker_vargs->sock);
     return NULL;
 
 }
