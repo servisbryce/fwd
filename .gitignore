@@ -1,1 +1,6 @@
 .vscode
+*.key
+*.crt
+*.srl
+*.ext
+*.csr

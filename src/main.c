@@ -10,7 +10,7 @@
 #include <signal.h>
 #include <unistd.h>
 
-void tls_receive(int servsock, SSL_CTX *servcontext, size_t buffer_length) {
+void tls_receive(int servsock, SSL_CTX *servcontext, arguments_t *arguments) {
 
     while (true) {
 
@@ -20,14 +20,14 @@ void tls_receive(int servsock, SSL_CTX *servcontext, size_t buffer_length) {
         if ((clientsock = accept(servsock, (struct sockaddr*) clientaddr_in, &clientaddr_in_length)) < 0) {
 
             fprintf(stderr, "There was an unexpected error while trying to accept an incoming connection: '%s'.\n", strerror(errno));
-            exit(EXIT_FAILURE);
 
         }
 
         pthread_t thread_id;
         tls_worker_vargs_t *tls_worker_vargs = (tls_worker_vargs_t*) malloc(sizeof(tls_worker_vargs_t));
+        tls_worker_vargs->upstream = arguments->upstream;
         tls_worker_vargs->context = servcontext;
-        tls_worker_vargs->length = buffer_length;
+        tls_worker_vargs->buffer_length = arguments->length;
         tls_worker_vargs->sock = clientsock;
         pthread_create(&thread_id, NULL, tls_worker, (void*) tls_worker_vargs);
         pthread_detach(thread_id);
@@ -36,7 +36,7 @@ void tls_receive(int servsock, SSL_CTX *servcontext, size_t buffer_length) {
 
 }
 
-void receive(int servsock, size_t buffer_length) {
+void receive(int servsock, arguments_t *arguments) {
 
     while (true) {
 
@@ -46,13 +46,13 @@ void receive(int servsock, size_t buffer_length) {
         if ((clientsock = accept(servsock, (struct sockaddr*) clientaddr_in, &clientaddr_in_length)) < 0) {
 
             fprintf(stderr, "There was an unexpected error while trying to accept an incoming connection: '%s'.\n", strerror(errno));
-            exit(EXIT_FAILURE);
 
         }
 
         pthread_t thread_id;
         worker_vargs_t *worker_vargs = (worker_vargs_t*) malloc(sizeof(worker_vargs_t));
-        worker_vargs->length = buffer_length;
+        worker_vargs->upstream = arguments->upstream;
+        worker_vargs->buffer_length = arguments->length;
         worker_vargs->sock = clientsock;
         pthread_create(&thread_id, NULL, worker, (void*) worker_vargs);
         pthread_detach(thread_id);
@@ -71,17 +71,19 @@ int main(int argc, char **argv) {
     SSL_CTX *servcontext = NULL;
     if (arguments->downstream->certificate_path && arguments->downstream->key_path) {
 
+        printf("hi\n");
         servcontext = handle_context(arguments->downstream->certificate_path, arguments->downstream->key_path);        
 
     }
 
     if (!servcontext) {
 
-        receive(servsock, arguments->length);
+        receive(servsock, arguments);
 
     } else {
 
-        tls_receive(servsock, servcontext, arguments->length);
+        printf("%p\n", servcontext);
+        tls_receive(servsock, servcontext, arguments);
 
     }
 
