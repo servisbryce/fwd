@@ -3,7 +3,8 @@
 
 #include <openssl/ssl.h>
 #include <openssl/err.h>
+#include <stdbool.h>
 
-SSL_CTX *handle_context(char *certificate_path, char *key_path);
+SSL_CTX *handle_context(char *certificate_path, char *key_path, bool topology);
 
 #endif

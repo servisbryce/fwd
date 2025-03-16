@@ -1,10 +1,23 @@
 #include <openssl/ssl.h>
 #include <openssl/err.h>
 #include <string.h>
+#include <stdbool.h>
 
-SSL_CTX *handle_context(char *certificate_path, char *key_path) {
+SSL_CTX *handle_context(char *certificate_path, char *key_path, bool topology) {
 
-    const SSL_METHOD *method = TLS_server_method();
+    SSL_load_error_strings();   
+    OpenSSL_add_ssl_algorithms();
+    SSL_METHOD *method = NULL;
+    if (topology) {
+
+        method = TLS_server_method();
+
+    } else {
+
+        method = TLS_client_method();
+
+    }
+
     SSL_CTX *context = SSL_CTX_new(method);
     if (!context) {
 
@@ -35,12 +48,16 @@ SSL_CTX *handle_context(char *certificate_path, char *key_path) {
 
     }
 
-    long tls_options = SSL_OP_IGNORE_UNEXPECTED_EOF | SSL_OP_NO_RENEGOTIATION | SSL_OP_CIPHER_SERVER_PREFERENCE;
-    SSL_CTX_set_options(context, tls_options);
+    if (topology) {
+        
+        long tls_options = SSL_OP_IGNORE_UNEXPECTED_EOF | SSL_OP_NO_RENEGOTIATION | SSL_OP_CIPHER_SERVER_PREFERENCE;
+        SSL_CTX_set_options(context, tls_options);
 
-    /* Provide Transport Layer Security session caching to reduce latency. */
-    SSL_CTX_sess_set_cache_size(context, 32768);
-    SSL_CTX_set_timeout(context, 3600);
+        /* Provide Transport Layer Security session caching to reduce latency. */
+        SSL_CTX_sess_set_cache_size(context, 32768);
+        SSL_CTX_set_timeout(context, 3600);
+
+    }
 
     return context;
 

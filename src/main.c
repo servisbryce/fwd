@@ -74,13 +74,13 @@ int main(int argc, char **argv) {
     SSL_CTX *servcontext = NULL;
     if (arguments->downstream->certificate_path && arguments->downstream->key_path) {
 
-        servcontext = handle_context(arguments->downstream->certificate_path, arguments->downstream->key_path);        
+        servcontext = handle_context(arguments->downstream->certificate_path, arguments->downstream->key_path, true);        
 
     }
 
     if (arguments->upstream->certificate_path && arguments->upstream->key_path) {
 
-        clientcontext = handle_context(arguments->upstream->certificate_path, arguments->upstream->key_path);
+        clientcontext = handle_context(arguments->upstream->certificate_path, arguments->upstream->key_path, false);
 
     }
 
