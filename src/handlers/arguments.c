@@ -95,12 +95,12 @@ arguments_t *handle_arguments(int argc, char **argv) {
                 arguments->downstream->key_path = optarg;
                 break;
 
-            /* Size of the TLS session cache. Defaults to 32 megabytes.*/
+            /* Size of the TLS session cache. Defaults to 32 kilobytes if TLS enabled.*/
             case 'j':
                 arguments->downstream->tls_cache_length = strtol(optarg, &optarg, 10);
                 break;
             
-            /* How long until a session is invalidated in the cache. Default 10 minutes. */
+            /* How long until a session is invalidated in the cache. Default 10 minutes if TLS enabled. */
             case 'k':
                 arguments->downstream->tls_session_timeout = strtol(optarg, &optarg, 10);
                 break;
@@ -115,12 +115,12 @@ arguments_t *handle_arguments(int argc, char **argv) {
                 arguments->upstream->key_path = optarg;
                 break;
             
-            /* Size of the TLS session cache. Defaults to 32 megabytes.*/
+            /* Size of the TLS session cache. Defaults to 32 kilobytes if TLS enabled.*/
             case 'o':
                 arguments->upstream->tls_cache_length = strtol(optarg, &optarg, 10);
                 break;
 
-            /* How long until a session is removed from the cache. Default is 10 minutes. */
+            /* How long until a session is removed from the cache. Default is 10 minutes if TLS enabled. */
             case 'p':
                 arguments->upstream->tls_session_timeout = strtol(optarg, &optarg, 10);
                 break;

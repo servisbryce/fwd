@@ -74,13 +74,41 @@ int main(int argc, char **argv) {
     SSL_CTX *servcontext = NULL;
     if (arguments->downstream->certificate_path && arguments->downstream->key_path) {
 
-        servcontext = handle_context(arguments->downstream->certificate_path, arguments->downstream->key_path, true);        
+        size_t tls_cache_length = 32000;
+        int tls_cache_timeout = 3600;
+        if (arguments->downstream->tls_cache_length) {
+
+            tls_cache_length = arguments->downstream->tls_cache_length;
+
+        }
+
+        if (arguments->downstream->tls_session_timeout) {
+
+            tls_cache_timeout = arguments->downstream->tls_session_timeout;
+
+        }
+
+        servcontext = handle_context(arguments->downstream->certificate_path, arguments->downstream->key_path, true, tls_cache_length, tls_cache_timeout);        
 
     }
 
     if (arguments->upstream->certificate_path && arguments->upstream->key_path) {
 
-        clientcontext = handle_context(arguments->upstream->certificate_path, arguments->upstream->key_path, false);
+        size_t tls_cache_length = 32000;
+        int tls_cache_timeout = 3600;
+        if (arguments->upstream->tls_cache_length) {
+
+            tls_cache_length = arguments->downstream->tls_cache_length;
+
+        }
+
+        if (arguments->upstream->tls_session_timeout) {
+
+            tls_cache_timeout = arguments->downstream->tls_session_timeout;
+
+        }
+
+        clientcontext = handle_context(arguments->upstream->certificate_path, arguments->upstream->key_path, false, tls_cache_length, tls_cache_timeout);
 
     }
 
