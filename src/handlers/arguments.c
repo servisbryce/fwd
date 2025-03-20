@@ -14,9 +14,13 @@ void help() {
     printf(" -f             fwd bind port\n");
     printf(" -g             downstream SSL/TLS certificate\n");
     printf(" -h             downstream SSL/TLS key\n");
+    printf(" -j             downstream TLS cache size in bytes");
+    printf(" -k             downstream TLS session timeout in seconds");
     printf("UPSTREAM OPTIONS\n");
     printf(" -u             upstream SSL/TLS certificate\n");
     printf(" -i             upstream SSL/TLS key\n");
+    printf(" -o             upstream TLS cache size in bytes");
+    printf(" -p             upstream TLS session timeout in seconds");
     printf("MISC OPTIONS\n");
     printf(" -l             maximum TCP buffer size\n");
     exit(EXIT_FAILURE);
