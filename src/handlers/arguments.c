@@ -18,6 +18,13 @@ arguments_t *handle_arguments(int argc, char **argv) {
         printf("DOWNSTREAM OPTIONS\n");
         printf(" -d             fwd bind address\n");
         printf(" -f             fwd bind port\n");
+        printf(" -g             downstream SSL/TLS certificate\n");
+        printf(" -h             downstream SSL/TLS key\n");
+        printf("UPSTREAM OPTIONS\n");
+        printf(" -u             upstream SSL/TLS certificate\n");
+        printf(" -i             upstream SSL/TLS key\n");
+        printf("MISC OPTIONS\n");
+        printf(" -l             maximum TCP buffer size\n");
         exit(EXIT_FAILURE);
 
     }
