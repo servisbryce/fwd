@@ -94,6 +94,16 @@ arguments_t *handle_arguments(int argc, char **argv) {
             case 'h':
                 arguments->downstream->key_path = optarg;
                 break;
+
+            /* Size of the TLS session cache. Defaults to 32 megabytes.*/
+            case 'j':
+                arguments->downstream->tls_cache_length = strtol(optarg, &optarg, 10);
+                break;
+            
+            /* How long until a session is invalidated in the cache. Default 10 minutes. */
+            case 'k':
+                arguments->downstream->tls_session_timeout = strtol(optarg, &optarg, 10);
+                break;
             
             /* Path for upstream certificate. */
             case 'u':
@@ -104,6 +114,16 @@ arguments_t *handle_arguments(int argc, char **argv) {
             case 'i':
                 arguments->upstream->key_path = optarg;
                 break;
+            
+            /* Size of the TLS session cache. Defaults to 32 megabytes.*/
+            case 'o':
+                arguments->upstream->tls_cache_length = strtol(optarg, &optarg, 10);
+                break;
+
+            /* How long until a session is removed from the cache. Default is 10 minutes. */
+            case 'p':
+                arguments->upstream->tls_session_timeout = strtol(optarg, &optarg, 10);
+                break;
 
             /* Unknown argument. */
             case '?':
@@ -111,14 +131,8 @@ arguments_t *handle_arguments(int argc, char **argv) {
                 break;
 
             default:
-                printf("Usage:\n");
-                printf("fwd [upstream address:upstream port] [options]");
-                printf("\n");
-                printf("DOWNSTREAM OPTIONS\n");
-                printf(" -d             fwd bind address\n");
-                printf(" -f             fwd bind port\n");
+                help();
                 break;
-
 
         }
 

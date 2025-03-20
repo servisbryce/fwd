@@ -3,7 +3,7 @@
 #include <string.h>
 #include <stdbool.h>
 
-SSL_CTX *handle_context(char *certificate_path, char *key_path, bool topology) {
+SSL_CTX *handle_context(char *certificate_path, char *key_path, bool topology, size_t tls_cache_length, int tls_session_timeout) {
 
     SSL_load_error_strings();   
     OpenSSL_add_ssl_algorithms();
@@ -56,8 +56,8 @@ SSL_CTX *handle_context(char *certificate_path, char *key_path, bool topology) {
     SSL_CTX_set_options(context, tls_options);
 
     /* Provide Transport Layer Security session caching to reduce latency. */
-    SSL_CTX_sess_set_cache_size(context, 32768);
-    SSL_CTX_set_timeout(context, 3600);
+    SSL_CTX_sess_set_cache_size(context, tls_cache_length);
+    SSL_CTX_set_timeout(context, tls_session_timeout);
 
     return context;
 
