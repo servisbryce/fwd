@@ -4,6 +4,25 @@
 #include <string.h>
 #include <stdio.h>
 
+void help() {
+
+    printf("Usage:\n");
+    printf("fwd [upstream address:upstream port] [options]");
+    printf("\n");
+    printf("DOWNSTREAM OPTIONS\n");
+    printf(" -d             fwd bind address\n");
+    printf(" -f             fwd bind port\n");
+    printf(" -g             downstream SSL/TLS certificate\n");
+    printf(" -h             downstream SSL/TLS key\n");
+    printf("UPSTREAM OPTIONS\n");
+    printf(" -u             upstream SSL/TLS certificate\n");
+    printf(" -i             upstream SSL/TLS key\n");
+    printf("MISC OPTIONS\n");
+    printf(" -l             maximum TCP buffer size\n");
+    exit(EXIT_FAILURE);
+
+}
+
 arguments_t *handle_arguments(int argc, char **argv) {
 
     /* Construct the argument structure. */
@@ -12,19 +31,12 @@ arguments_t *handle_arguments(int argc, char **argv) {
     /* Position arguments are required. */
     if (!argv[1]) {
 
-        printf("Usage:\n");
-        printf("fwd [upstream address:upstream port] [options]");
-        printf("\n");
-        printf("DOWNSTREAM OPTIONS\n");
-        printf(" -d             fwd bind address\n");
-        printf(" -f             fwd bind port\n");
-        printf(" -g             downstream SSL/TLS certificate\n");
-        printf(" -h             downstream SSL/TLS key\n");
-        printf("UPSTREAM OPTIONS\n");
-        printf(" -u             upstream SSL/TLS certificate\n");
-        printf(" -i             upstream SSL/TLS key\n");
-        printf("MISC OPTIONS\n");
-        printf(" -l             maximum TCP buffer size\n");
+        help();
+        exit(EXIT_FAILURE);
+
+    } else if (strcmp(argv[1], "-h") == 0) {
+
+        help();
         exit(EXIT_FAILURE);
 
     }
