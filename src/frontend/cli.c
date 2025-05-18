@@ -19,9 +19,13 @@ arguments_t construct_arguments(int argc, char *argv[]) {
     /* Create our structure and ensure that it's memory is cleared out. */
     arguments_t arguments;
     memset(&arguments, 0, sizeof(arguments));
+    arguments.maximum_connections = 4096;
+    arguments.downstream_timeout = 60;
+    arguments.upstream_timeout = 60;
 
+    /* Parse the command-line arguments. */
     int flag;
-    while ((flag = getopt(argc, argv, "u:d:c:k:")) != -1) {
+    while ((flag = getopt(argc, argv, "u:d:c:k:m:f:i:")) != -1) {
 
         char *remaining_string = optarg;
         char *token = NULL;
@@ -145,14 +149,54 @@ arguments_t construct_arguments(int argc, char *argv[]) {
                 break;
 
             case 'c':
-                arguments.upstream_certificate = token;
+                arguments.upstream_certificate = optarg;
                 break;
 
             case 'k':
-                arguments.upstream_certificate_key = token;
+                arguments.upstream_certificate_key = optarg;
+                break;
+
+            case 'm':
+                arguments.maximum_connections = (uint16_t) strtol(optarg, NULL, 10);
+                break;
+
+            case 'f':
+                arguments.downstream_timeout = (int) strtol(optarg, NULL, 10);
+                break;
+            
+            case 'i':
+                arguments.upstream_timeout = (int) strtol(optarg, NULL, 10);
                 break;
 
         }
+
+    }
+
+    /* Check if upstream and downstream values were set. */
+    if (!arguments.upstream_address || !arguments.downstream_address) {
+
+        fprintf(stderr, "You must specify both a downstream and upstream bind address.\n");
+        exit(EXIT_FAILURE);
+
+    }
+
+    /* Lint our user-inputted data to ensure that there's no configuration errors. */
+    if (arguments.upstream_protocol == HTTPS) {
+
+        if (!arguments.upstream_certificate || !arguments.upstream_certificate_key) {
+
+            fprintf(stderr, "If you've specified that you'll be using an encrypted protocol upstream, then you'll need to specify a certificate and a certificate key!\n");
+            exit(EXIT_FAILURE);
+
+        }
+
+    }
+
+    /* Check that our various integer values actually make sense. */
+    if (arguments.maximum_connections == 0 || arguments.upstream_port == 0 || arguments.downstream_port == 0) {
+
+        fprintf(stderr, "You cannot set the maximum connections, upstream port, or downstream port to a value that's below zero.\n");
+        exit(EXIT_FAILURE);
 
     }
 

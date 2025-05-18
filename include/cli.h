@@ -19,10 +19,13 @@ typedef struct arguments {
     protocol_t upstream_protocol;
     uint16_t downstream_port;
     uint16_t upstream_port;
+    uint16_t maximum_connections;
     char *downstream_address;
     char *upstream_address;
     char *upstream_certificate;
     char *upstream_certificate_key;
+    int upstream_timeout;
+    int downstream_timeout;
 
 } arguments_t;
 
