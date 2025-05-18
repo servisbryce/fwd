@@ -7,6 +7,7 @@
 typedef enum protocol {
 
     GENERIC,
+    HTTPS,
     HTTP
 
 } protocol_t ;
@@ -20,6 +21,8 @@ typedef struct arguments {
     uint16_t upstream_port;
     char *downstream_address;
     char *upstream_address;
+    char *upstream_certificate;
+    char *upstream_certificate_key;
 
 } arguments_t;
 

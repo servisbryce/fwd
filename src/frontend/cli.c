@@ -7,6 +7,7 @@
 /* Find our protocol from a string. */
 protocol_t construct_protocol(char *tokenized_protocol) {
 
+    if (strcmp(tokenized_protocol, "https") == 0) return HTTPS;
     if (strcmp(tokenized_protocol, "http") == 0) return HTTP;
     return GENERIC;
 
@@ -20,7 +21,7 @@ arguments_t construct_arguments(int argc, char *argv[]) {
     memset(&arguments, 0, sizeof(arguments));
 
     int flag;
-    while ((flag = getopt(argc, argv, "u:d:")) != -1) {
+    while ((flag = getopt(argc, argv, "u:d:c:k:")) != -1) {
 
         char *remaining_string = optarg;
         char *token = NULL;
@@ -141,6 +142,14 @@ arguments_t construct_arguments(int argc, char *argv[]) {
 
                 /* Convert the tokenized upstream port into a number rather than a string. */
                 arguments.downstream_port = (uint16_t) strtol(tokenized_downstream_port, NULL, 10);
+                break;
+
+            case 'c':
+                arguments.upstream_certificate = token;
+                break;
+
+            case 'k':
+                arguments.upstream_certificate_key = token;
                 break;
 
         }
