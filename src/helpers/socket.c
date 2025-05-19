@@ -8,7 +8,7 @@
 int create_socket(struct sockaddr *sockaddr, int timeout) {
 
     /* Ensure that our parameters actually exist. */
-    if (!sockaddr || timeout < 0) {
+    if (!sockaddr) {
 
         return -1;
 
@@ -23,17 +23,22 @@ int create_socket(struct sockaddr *sockaddr, int timeout) {
 
     }
 
-    /* Set our socket options. */
-    struct timeval socket_timeout;
-    memset(&socket_timeout, 0, sizeof(socket_timeout));
-    socket_timeout.tv_sec = timeout;
-    if (setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, (const char *) &socket_timeout, sizeof(socket_timeout)) < 0) {
+    /* If we have a timeout that's negative, we won't set one. */
+    if (timeout > -1) {
+            
+        struct timeval socket_timeout;
+        memset(&socket_timeout, 0, sizeof(socket_timeout));
+        socket_timeout.tv_sec = timeout;
+        if (setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, (const char *) &socket_timeout, sizeof(socket_timeout)) < 0) {
 
-        fprintf(stderr, "There was an error while trying to set the socket timeout!\n");
-        exit(EXIT_FAILURE);
+            fprintf(stderr, "There was an error while trying to set the socket timeout!\n");
+            exit(EXIT_FAILURE);
+
+        }
 
     }
 
+    /* Set our socket options. */
     int option = 1;
     if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &option, sizeof(option)) < 0) {
 

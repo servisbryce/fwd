@@ -8,10 +8,10 @@
 #include <stdio.h>
 
 /* An interface for an unencrypted generic T.C.P. proxied connection. */
-int unprotected_generic_interface(struct sockaddr *downstream_sockaddr, int sockfd) {
+int unprotected_generic_interface(struct sockaddr *downstream_sockaddr, struct sockaddr *upstream_sockaddr, int sockfd, int timeout) {
 
     /* Ensure our parameters are valid. */
-    if (sockfd < 0) {
+    if (!downstream_sockaddr || !upstream_sockaddr || sockfd < 0) {
 
         return -1;
 
@@ -28,6 +28,21 @@ int unprotected_generic_interface(struct sockaddr *downstream_sockaddr, int sock
 
             fprintf(stderr, "There was an error while trying to accept an incoming connection!\n");
             continue;
+
+        }
+
+        /* Set the socket timeout. */
+        if (timeout > -1) {
+            
+            struct timeval socket_timeout;
+            memset(&socket_timeout, 0, sizeof(socket_timeout));
+            socket_timeout.tv_sec = timeout;
+            if (setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, (const char *) &socket_timeout, sizeof(socket_timeout)) < 0) {
+
+                fprintf(stderr, "There was an error while trying to set the socket timeout!\n");
+                exit(EXIT_FAILURE);
+
+            }
 
         }
 

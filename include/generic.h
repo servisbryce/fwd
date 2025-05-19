@@ -3,6 +3,6 @@
 
 #include "cli.h"
 
-int unprotected_generic_interface(struct sockaddr *downstream_sockaddr, int sockfd);
+int unprotected_generic_interface(struct sockaddr *downstream_sockaddr, struct sockaddr *upstream_sockaddr, int sockfd, int timeout);
 
 #endif
