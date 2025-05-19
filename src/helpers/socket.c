@@ -8,7 +8,7 @@
 int create_socket(struct sockaddr *sockaddr, int timeout) {
 
     /* Ensure that our parameters actually exist. */
-    if (!sockaddr) {
+    if (!sockaddr || timeout < 0) {
 
         return -1;
 

@@ -10,6 +10,13 @@
 /* Convert our port and address into a valid socket address structure. */
 struct sockaddr *construct_sockaddr(char *address, uint16_t port) {
 
+    /* Ensure our inputs are valid. */
+    if (!address || port < 1) {
+
+        return NULL;
+
+    }
+
     /* Allocate, clean, and set our hints. */
     struct addrinfo *result = NULL;
     struct addrinfo hints;
