@@ -40,7 +40,8 @@ int unprotected_generic_interface(struct sockaddr *downstream_sockaddr, struct s
             if (setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, (const char *) &socket_timeout, sizeof(socket_timeout)) < 0) {
 
                 fprintf(stderr, "There was an error while trying to set the socket timeout!\n");
-                exit(EXIT_FAILURE);
+                close(client_sockfd);
+                continue;
 
             }
 
@@ -51,6 +52,7 @@ int unprotected_generic_interface(struct sockaddr *downstream_sockaddr, struct s
         if ((child_pid = fork()) < 0) {
 
             fprintf(stderr, "There was an error while trying to fork the main process!\n");
+            close(client_sockfd);
             continue;
 
         }
@@ -58,7 +60,7 @@ int unprotected_generic_interface(struct sockaddr *downstream_sockaddr, struct s
         /* If we're the main process, we should move on while letting the child process run through it's course. */
         if (child_pid != 0) {
 
-            /* For weird socket reasons, we should probably close this on our end so that the client can use the socket properly. */
+            /* For weird socket reasons, we should probably close this on our end so that the other process can use the socket properly. */
             close(client_sockfd);
             continue;
 
@@ -71,12 +73,16 @@ int unprotected_generic_interface(struct sockaddr *downstream_sockaddr, struct s
         if (pipe(downstream_to_child_fd) == -1) {
 
             fprintf(stderr, "There was an error while trying to construct a pipe between the downstream and child processes.\n");
+            close(client_sockfd);
+            exit(EXIT_FAILURE);
 
         }
 
         if (pipe(child_to_downstream_fd) == -1) {
 
             fprintf(stderr, "There was an error while trying to construct a pipe between the child and downstream processes.\n");
+            close(client_sockfd);
+            exit(EXIT_FAILURE);
 
         }
 
@@ -85,7 +91,8 @@ int unprotected_generic_interface(struct sockaddr *downstream_sockaddr, struct s
         if ((downstream_child_pid = fork()) < 0) {
 
             fprintf(stderr, "There was an error while trying to fork the child process!\n");
-            continue;
+            close(client_sockfd);
+            exit(EXIT_FAILURE);
 
         }
 
@@ -105,7 +112,10 @@ int unprotected_generic_interface(struct sockaddr *downstream_sockaddr, struct s
             int epoll_fd;
             if ((epoll_fd = epoll_create1(0)) < 0) {
 
-                fprintf(stderr, "There was an error while trying to create an epoll file descriptor!\n");
+                fprintf(stderr, "There was an error while trying to create an epoll file descriptor!\n");\
+                close(downstream_to_child_fd[0]);
+                close(child_to_downstream_fd[1]);
+                close(client_sockfd);
                 exit(EXIT_FAILURE);
 
             }
@@ -142,7 +152,7 @@ int unprotected_generic_interface(struct sockaddr *downstream_sockaddr, struct s
                                 close(downstream_to_child_fd[0]);
                                 close(child_to_downstream_fd[1]);
                                 close(client_sockfd);
-                                break;
+                                exit(EXIT_FAILURE);
 
                             }
 
@@ -157,7 +167,7 @@ int unprotected_generic_interface(struct sockaddr *downstream_sockaddr, struct s
                                 close(downstream_to_child_fd[0]);
                                 close(child_to_downstream_fd[1]);
                                 close(client_sockfd);
-                                break;
+                                exit(EXIT_FAILURE);
 
                             }
 
@@ -177,7 +187,7 @@ int unprotected_generic_interface(struct sockaddr *downstream_sockaddr, struct s
                                 close(downstream_to_child_fd[0]);
                                 close(child_to_downstream_fd[1]);
                                 close(client_sockfd);
-                                break;
+                                exit(EXIT_FAILURE);
 
                             }
 
@@ -192,7 +202,7 @@ int unprotected_generic_interface(struct sockaddr *downstream_sockaddr, struct s
                                 close(downstream_to_child_fd[0]);
                                 close(child_to_downstream_fd[1]);
                                 close(client_sockfd);
-                                break;
+                                exit(EXIT_FAILURE);
 
                             }
 
@@ -247,6 +257,9 @@ int unprotected_generic_interface(struct sockaddr *downstream_sockaddr, struct s
             if ((epoll_fd = epoll_create1(0)) < 0) {
 
                 fprintf(stderr, "There was an error while trying to create an epoll file descriptor!\n");
+                close(child_to_downstream_fd[0]);
+                close(downstream_to_child_fd[1]);
+                close(downstream_sockfd);
                 exit(EXIT_FAILURE);
 
             }
@@ -283,7 +296,7 @@ int unprotected_generic_interface(struct sockaddr *downstream_sockaddr, struct s
                                 close(child_to_downstream_fd[0]);
                                 close(downstream_to_child_fd[1]);
                                 close(downstream_sockfd);
-                                break;
+                                exit(EXIT_FAILURE);
 
                             }
 
@@ -298,7 +311,7 @@ int unprotected_generic_interface(struct sockaddr *downstream_sockaddr, struct s
                                 close(child_to_downstream_fd[0]);
                                 close(downstream_to_child_fd[1]);
                                 close(downstream_sockfd);
-                                break;
+                                exit(EXIT_FAILURE);
 
                             }
 
@@ -318,7 +331,7 @@ int unprotected_generic_interface(struct sockaddr *downstream_sockaddr, struct s
                                 close(child_to_downstream_fd[0]);
                                 close(downstream_to_child_fd[1]);
                                 close(downstream_sockfd);
-                                break;
+                                exit(EXIT_FAILURE);
 
                             }
 
@@ -333,7 +346,7 @@ int unprotected_generic_interface(struct sockaddr *downstream_sockaddr, struct s
                                 close(child_to_downstream_fd[0]);
                                 close(downstream_to_child_fd[1]);
                                 close(downstream_sockfd);
-                                break;
+                                exit(EXIT_FAILURE);
 
                             }
 
@@ -354,5 +367,8 @@ int unprotected_generic_interface(struct sockaddr *downstream_sockaddr, struct s
         exit(EXIT_SUCCESS);
 
     }
+
+    /* If we reach this point, we should indicate success and return. */
+    return 0;
 
 }
