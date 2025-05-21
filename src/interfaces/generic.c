@@ -23,8 +23,25 @@ int unprotected_generic_interface(struct sockaddr *downstream_sockaddr, struct s
         /* Prepare to store data regarding our new client. */
         int client_sockfd;
 
+        /* Allocate client socket address structures. */
+        unsigned int client_sockaddr_length;
+        struct sockaddr *client_sockaddr = NULL;
+        if (upstream_sockaddr->sa_family == AF_INET) {
+
+            client_sockaddr_length = sizeof(struct sockaddr_in);
+            struct sockaddr_in *client_sockaddr_in = (struct sockaddr_in *) malloc(client_sockaddr_length);
+            client_sockaddr = (struct sockaddr *) client_sockaddr_in;
+
+        } else {
+
+            client_sockaddr_length = sizeof(struct sockaddr_in6);
+            struct sockaddr_in6 *client_sockaddr_in6 = (struct sockaddr_in6 *) malloc(client_sockaddr_length);
+            client_sockaddr = (struct sockaddr *) client_sockaddr_in6;
+
+        }
+
         /* Accept our new connection regarding our client. */
-        if ((client_sockfd = accept(sockfd, NULL, NULL)) < 0) {
+        if ((client_sockfd = accept(sockfd, client_sockaddr, &client_sockaddr_length)) < 0) {
 
             fprintf(stderr, "There was an error while trying to accept an incoming connection!\n");
             continue;
