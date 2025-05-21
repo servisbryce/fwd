@@ -3,6 +3,7 @@
 
 #include "cli.h"
 
+/* An interface for an unencrypted generic T.C.P. proxied connection. */
 int unprotected_generic_interface(struct sockaddr *downstream_sockaddr, struct sockaddr *upstream_sockaddr, int sockfd, int timeout);
 
 #endif

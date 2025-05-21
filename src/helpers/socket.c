@@ -36,6 +36,13 @@ int create_socket(struct sockaddr *sockaddr, int timeout) {
 
         }
 
+        if (setsockopt(sockfd, SOL_SOCKET, SO_SNDTIMEO, (const char *) &socket_timeout, sizeof(socket_timeout)) < 0) {
+
+            fprintf(stderr, "There was an error while trying to set the socket timeout!\n");
+            exit(EXIT_FAILURE);
+
+        }
+
     }
 
     /* Set our socket options. */

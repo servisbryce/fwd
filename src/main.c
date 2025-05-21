@@ -26,7 +26,7 @@ int main(int argc, char *argv[]) {
     struct sockaddr *upstream_sockaddr = construct_sockaddr(arguments.upstream_address, arguments.upstream_port);
     
     /* Construct our upstream-facing listener socket. */
-    int sockfd = create_socket(upstream_sockaddr, 0);
+    int sockfd = create_socket(upstream_sockaddr, -1);
 
     unprotected_generic_interface(downstream_sockaddr, upstream_sockaddr, sockfd, arguments.upstream_timeout);
 
