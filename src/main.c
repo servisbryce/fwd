@@ -28,6 +28,10 @@ int main(int argc, char *argv[]) {
     /* Construct our upstream-facing listener socket. */
     int sockfd = create_socket(upstream_sockaddr, -1);
 
+    /* This is temporary to test the unprotected generic interface! */
     unprotected_generic_interface(downstream_sockaddr, upstream_sockaddr, sockfd, arguments.upstream_timeout);
+
+    /* Return success if we reach this point. */
+    return 0;
 
 }

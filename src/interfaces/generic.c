@@ -27,7 +27,6 @@ int unprotected_generic_interface(struct sockaddr *downstream_sockaddr, struct s
         if ((client_sockfd = accept(sockfd, NULL, NULL)) < 0) {
 
             fprintf(stderr, "There was an error while trying to accept an incoming connection!\n");
-            perror("hey");
             continue;
 
         }
