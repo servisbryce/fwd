@@ -31,6 +31,9 @@ int main(int argc, char *argv[]) {
     /* This is temporary to test the unprotected generic interface! */
     unprotected_generic_interface(downstream_sockaddr, upstream_sockaddr, sockfd, arguments.upstream_timeout);
 
+    /* Close our upstream socket. */
+    close(sockfd);
+
     /* If we've allocated an upstream socket address structure, free it. */
     if (downstream_sockaddr) {
 
