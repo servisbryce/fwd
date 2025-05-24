@@ -12,6 +12,8 @@
 #include "../include/cli.h"
 #include <netinet/in.h>
 #include <sys/socket.h>
+#include <unistd.h>
+#include <stdlib.h>
 #include <stdio.h>
 
 int main(int argc, char *argv[]) {
