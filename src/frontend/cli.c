@@ -180,14 +180,10 @@ arguments_t construct_arguments(int argc, char *argv[]) {
     }
 
     /* Lint our user-inputted data to ensure that there's no configuration errors. */
-    if (arguments.upstream_protocol == HTTPS) {
+    if (!arguments.upstream_certificate || !arguments.upstream_certificate_key) {
 
-        if (!arguments.upstream_certificate || !arguments.upstream_certificate_key) {
-
-            fprintf(stderr, "If you've specified that you'll be using an encrypted protocol upstream, then you'll need to specify a certificate and a certificate key!\n");
-            exit(EXIT_FAILURE);
-
-        }
+        fprintf(stderr, "If you've specified that you'll be using an encrypted protocol upstream, then you'll need to specify a certificate and a certificate key!\n");
+        exit(EXIT_FAILURE);
 
     }
 

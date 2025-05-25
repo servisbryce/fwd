@@ -7,7 +7,6 @@
 #include "../include/sockaddr.h"
 #include "../include/generic.h"
 #include "../include/socket.h"
-#include "../include/https.h"
 #include "../include/http.h"
 #include "../include/cli.h"
 #include <netinet/in.h>
