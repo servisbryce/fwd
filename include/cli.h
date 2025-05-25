@@ -9,9 +9,6 @@ typedef enum protocol {
     /* Regular T.C.P. without any protocol-specific enhancements. */
     GENERIC,
 
-    /* Regular H.T.T.P. protocol-specific enhancements but protected using T.L.S. */
-    HTTPS,
-
     /* Regular H.T.T.P. protocol-specific enhancements. */
     HTTP
 

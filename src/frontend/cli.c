@@ -7,7 +7,6 @@
 /* Find our protocol from a string. */
 protocol_t construct_protocol(char *tokenized_protocol) {
 
-    if (strcmp(tokenized_protocol, "https") == 0) return HTTPS;
     if (strcmp(tokenized_protocol, "http") == 0) return HTTP;
     return GENERIC;
 
