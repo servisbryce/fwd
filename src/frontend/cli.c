@@ -24,7 +24,7 @@ arguments_t construct_arguments(int argc, char *argv[]) {
 
     /* Parse the command-line arguments. */
     int flag;
-    while ((flag = getopt(argc, argv, "u:d:c:k:m:f:i:")) != -1) {
+    while ((flag = getopt(argc, argv, "u:d:c:k:m:f:i:p")) != -1) {
 
         char *remaining_string = optarg;
         char *token = NULL;
@@ -167,6 +167,10 @@ arguments_t construct_arguments(int argc, char *argv[]) {
                 arguments.upstream_timeout = (int) strtol(optarg, NULL, 10);
                 break;
 
+            case 'p':
+                arguments.protected_downstream = true;
+                break;
+
         }
 
     }
@@ -180,7 +184,7 @@ arguments_t construct_arguments(int argc, char *argv[]) {
     }
 
     /* Lint our user-inputted data to ensure that there's no configuration errors. */
-    if (!arguments.upstream_certificate || !arguments.upstream_certificate_key) {
+    if ((arguments.upstream_certificate && !arguments.upstream_certificate_key) || (!arguments.upstream_certificate && arguments.upstream_certificate_key)) {
 
         fprintf(stderr, "If you've specified that you'll be using an encrypted protocol upstream, then you'll need to specify a certificate and a certificate key!\n");
         exit(EXIT_FAILURE);

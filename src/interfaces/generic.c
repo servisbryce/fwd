@@ -1,5 +1,8 @@
 #include "../../include/cli.h"
+#include "../../include/tls.h"
 #include <netinet/in.h>
+#include <openssl/ssl.h>
+#include <openssl/err.h>
 #include <sys/socket.h>
 #include <sys/epoll.h>
 #include <unistd.h>
@@ -8,10 +11,10 @@
 #include <stdio.h>
 
 /* An interface for an unencrypted generic T.C.P. proxied connection. */
-int unprotected_generic_interface(struct sockaddr *downstream_sockaddr, struct sockaddr *upstream_sockaddr, int sockfd, int timeout) {
+int unprotected_generic_interface(struct sockaddr *downstream_sockaddr, struct sockaddr *upstream_sockaddr, char *hostname, bool protected_downstream, int sockfd, int timeout) {
 
     /* Ensure our parameters are valid. */
-    if (!downstream_sockaddr || !upstream_sockaddr || sockfd < 0) {
+    if (!downstream_sockaddr || !upstream_sockaddr || sockfd < 0 || !hostname) {
 
         return -1;
 
@@ -254,6 +257,22 @@ int unprotected_generic_interface(struct sockaddr *downstream_sockaddr, struct s
             /* Yeah, we also don't really want to have an open upstream socket in the downstream child process either. */
             close(client_sockfd);
 
+            /* If we have a protected downstream, we'll create our client T.L.S. context here. */
+            SSL *ssl = NULL;
+            SSL_CTX *tls_client_context = NULL;
+            if (protected_downstream) {
+
+                if (!(tls_client_context = create_client_context())) {
+
+                    fprintf(stderr, "There was an issue while trying to create a T.L.S. client context.\n");
+                    close(child_to_downstream_fd[0]);
+                    close(downstream_to_child_fd[1]);
+                    exit(EXIT_FAILURE);
+
+                }
+
+            }
+
             /* Determine our downstream structure length. */
             size_t downstream_sockaddr_length = sizeof(struct sockaddr_in6);
             if (downstream_sockaddr->sa_family == AF_INET) {
@@ -271,6 +290,50 @@ int unprotected_generic_interface(struct sockaddr *downstream_sockaddr, struct s
                 close(downstream_to_child_fd[1]);
                 close(downstream_sockfd);
                 exit(EXIT_FAILURE);
+
+            }
+
+            if (tls_client_context) {
+
+                /* Setup our handshake and prepare it. */
+                ssl = SSL_new(tls_client_context);
+                SSL_set_fd(ssl, downstream_sockfd);
+                if (!SSL_set_tlsext_host_name(ssl, hostname)) {
+
+                    fprintf(stderr, "There was an error while trying to setup a T.L.S. handshake with the downstream server!\n");
+                    close(child_to_downstream_fd[0]);
+                    close(downstream_to_child_fd[1]);
+                    close(downstream_sockfd);
+                    SSL_free(ssl);
+                    SSL_CTX_free(tls_client_context);
+                    exit(EXIT_FAILURE);
+
+                }
+
+                if (!SSL_set1_host(ssl, hostname)) {
+
+                    fprintf(stderr, "There was an error while trying to setup a T.L.S. handshake with the downstream server!\n");
+                    close(child_to_downstream_fd[0]);
+                    close(downstream_to_child_fd[1]);
+                    close(downstream_sockfd);
+                    SSL_free(ssl);
+                    SSL_CTX_free(tls_client_context);
+                    exit(EXIT_FAILURE);
+
+                }
+
+                /* Execute our handshake and secure a connection. */
+                if (SSL_connect(ssl) <= 0) {
+
+                    fprintf(stderr, "There was an error while trying to perform a T.L.S. handshake with the downstream server!\n");
+                    close(child_to_downstream_fd[0]);
+                    close(downstream_to_child_fd[1]);
+                    close(downstream_sockfd);
+                    SSL_free(ssl);
+                    SSL_CTX_free(tls_client_context);
+                    exit(EXIT_FAILURE);
+
+                }
 
             }
 
@@ -312,7 +375,7 @@ int unprotected_generic_interface(struct sockaddr *downstream_sockaddr, struct s
                         if (fd == child_to_downstream_fd[0]) {
 
                             /* Read the message from the upstream client. */
-                            ssize_t upstream_message_length = 8000000;
+                            size_t upstream_message_length = 8000000;
                             char *upstream_message = (char *) malloc(upstream_message_length);
                             if ((upstream_message_length = read(child_to_downstream_fd[0], upstream_message, upstream_message_length)) < 0) {
 
@@ -329,14 +392,33 @@ int unprotected_generic_interface(struct sockaddr *downstream_sockaddr, struct s
                             upstream_message = (char *) realloc(upstream_message, upstream_message_length);
 
                             /* Write the downstream message to the upstream client. */
-                            if (write(downstream_sockfd, upstream_message, upstream_message_length) < 0) {
+                            if (!protected_downstream) {
 
-                                fprintf(stderr, "There was an issue while trying to write the upstream message to the downstream server!\n");
-                                free(upstream_message);
-                                close(child_to_downstream_fd[0]);
-                                close(downstream_to_child_fd[1]);
-                                close(downstream_sockfd);
-                                exit(EXIT_FAILURE);
+                                if (write(downstream_sockfd, upstream_message, upstream_message_length) < 0) {
+
+                                    fprintf(stderr, "There was an issue while trying to write the upstream message to the downstream server!\n");
+                                    free(upstream_message);
+                                    close(child_to_downstream_fd[0]);
+                                    close(downstream_to_child_fd[1]);
+                                    close(downstream_sockfd);
+                                    exit(EXIT_FAILURE);
+
+                                }
+
+                            } else {
+
+                                if (SSL_write(ssl, upstream_message, upstream_message_length) < 0) {
+
+                                    fprintf(stderr, "There was an issue while trying to write the upstream message to the downstream server!\n");
+                                    SSL_free(ssl);
+                                    SSL_CTX_free(tls_client_context);
+                                    free(upstream_message);
+                                    close(child_to_downstream_fd[0]);
+                                    close(downstream_to_child_fd[1]);
+                                    close(downstream_sockfd);
+                                    exit(EXIT_FAILURE);
+
+                                }
 
                             }
 
@@ -347,16 +429,35 @@ int unprotected_generic_interface(struct sockaddr *downstream_sockaddr, struct s
                         } else if (fd == downstream_sockfd) {
 
                             /* Read the message from the downstream server. */
-                            ssize_t downstream_message_length = 8000000;
+                            size_t downstream_message_length = 8000000;
                             char *downstream_message = (char *) malloc(downstream_message_length);
-                            if ((downstream_message_length = read(downstream_sockfd, downstream_message, downstream_message_length)) < 0) {
+                            if (!protected_downstream) {
 
-                                fprintf(stderr, "There was an issue while trying to read the downstream message!\n");
-                                free(downstream_message);
-                                close(child_to_downstream_fd[0]);
-                                close(downstream_to_child_fd[1]);
-                                close(downstream_sockfd);
-                                exit(EXIT_FAILURE);
+                                if ((downstream_message_length = read(downstream_sockfd, downstream_message, downstream_message_length)) < 0) {
+
+                                    fprintf(stderr, "There was an issue while trying to read the downstream message!\n");
+                                    free(downstream_message);
+                                    close(child_to_downstream_fd[0]);
+                                    close(downstream_to_child_fd[1]);
+                                    close(downstream_sockfd);
+                                    exit(EXIT_FAILURE);
+
+                                }
+
+                            } else {
+
+                                if (!SSL_read_ex(ssl, downstream_message, downstream_message_length, &downstream_message_length)) {
+
+                                    fprintf(stderr, "There was an issue while trying to read the downstream message!\n");
+                                    SSL_free(ssl);
+                                    SSL_CTX_free(tls_client_context);
+                                    free(downstream_message);
+                                    close(child_to_downstream_fd[0]);
+                                    close(downstream_to_child_fd[1]);
+                                    close(downstream_sockfd);
+                                    exit(EXIT_FAILURE);
+
+                                }
 
                             }
 

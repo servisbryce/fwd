@@ -40,6 +40,9 @@ typedef struct arguments {
     int upstream_timeout;
     int downstream_timeout;
 
+    /* Specify if that the downstream is protected or not. */
+    bool protected_downstream;
+
 } arguments_t;
 
 /* Define our arguments constructor. */

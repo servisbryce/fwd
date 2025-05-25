@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
     int sockfd = create_socket(upstream_sockaddr, -1);
 
     /* This is temporary to test the unprotected generic interface! */
-    unprotected_generic_interface(downstream_sockaddr, upstream_sockaddr, sockfd, arguments.upstream_timeout);
+    unprotected_generic_interface(downstream_sockaddr, upstream_sockaddr, arguments.downstream_address, arguments.protected_downstream, sockfd, arguments.upstream_timeout);
 
     /* Close our upstream socket. */
     close(sockfd);
