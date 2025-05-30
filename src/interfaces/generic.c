@@ -20,7 +20,48 @@ int generic_interface(struct sockaddr *downstream_sockaddr, struct sockaddr *ups
 
     }
 
-    
+    /* Allocate our pipes on the stack. */
+    int downstream_to_upstream_pipe[2];
+    int upstream_to_downstream_pipe[2];
+
+    /* Create our pipes. */
+    if (pipe(downstream_to_upstream_pipe) < 0) {
+
+        return -1;
+
+    }
+
+    if (pipe(upstream_to_downstream_pipe) < 0) {
+
+        return -1;
+
+    }
+
+    /* Branch off into our respective processes. */
+    int process_id;
+    if ((process_id = fork()) == 0) {
+
+        /* We're the forked process (upstream-facing process). */
+
+        /* Close the write-end of the downstream-to-upstream pipe as we'll be receiving messages to process through this pipe. */
+        close(downstream_to_upstream_pipe[1]);
+
+        /* Close the read-end of the upstream-to-downstream pipe as we'll be writing messages to process through this pipe. */
+        close(upstream_to_downstream_pipe[0]);
+
+
+
+    } else {
+
+        /* We're the parent (downstream-facing process). */
+
+        /* Close the read-end of the downstream-to-upstream pipe as we'll be writing messages to process through this pipe. */
+        close(downstream_to_upstream_pipe[0]);
+
+        /* Close the write-end of the upstream-to-downstream pipe as we'll be reading messages to process through this pipe. */
+        close(upstream_to_downstream_pipe[1]);
+
+    }
 
     /* Return success. */
     return 0;
