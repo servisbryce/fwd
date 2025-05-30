@@ -41,16 +41,10 @@ int main(int argc, char *argv[]) {
     /* Determine whether we have an encrypted or unencrypted downstream. */
     if (upstream_context) {
 
-        /* Run our protected routine. */
-        protected_generic_interface(upstream_context, downstream_sockaddr, upstream_sockaddr, arguments.downstream_address, arguments.protected_downstream, sockfd, arguments.upstream_timeout);
-
         /* Free our server context. */
         SSL_CTX_free(upstream_context);
 
     } else {
-
-        /* Run our unprotected routine. */
-        unprotected_generic_interface(downstream_sockaddr, upstream_sockaddr, arguments.downstream_address, arguments.protected_downstream, sockfd, arguments.upstream_timeout);
 
     }
 
