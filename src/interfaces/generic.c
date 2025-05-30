@@ -376,8 +376,8 @@ int generic_interface(struct sockaddr *downstream_sockaddr, struct sockaddr *ups
                     if (ssl) {
 
                         /* Receive the message if we're using T.L.S. */
-                        size_t unsigned_buffer_length = (size_t) downstream_message_length;
-                        if (!(downstream_message = protected_receive(ssl, &unsigned_buffer_length))) {
+                        size_t unsigned_downstream_message_length = (size_t) downstream_message_length;
+                        if (!(downstream_message = protected_receive(ssl, &unsigned_downstream_message_length))) {
 
                             free(downstream_message);
                             SSL_free(ssl);
